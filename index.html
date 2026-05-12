@@ -3,1410 +3,1732 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MeritStar — Your Achievement, Your Moment</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<title>MyMeritStar — Your Score. Your Story. Your Card.</title>
 <style>
-  :root {
-    --purple: #5C00B8;
-    --purple-deep: #3A007A;
-    --purple-light: #8B3FD9;
-    --purple-pale: #F3EAFF;
-    --yellow: #FFD600;
-    --yellow-warm: #FFC300;
-    --yellow-pale: #FFFBE6;
-    --white: #FFFFFF;
-    --dark: #1A0033;
-    --grey: #6B7280;
-    --light-grey: #F8F4FF;
-    --success: #10B981;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--dark);
-    color: var(--white);
-    overflow-x: hidden;
-    min-height: 100vh;
-  }
-
-  /* ── BACKGROUND ── */
-  .bg-mesh {
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(92,0,184,0.6) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 80% at 80% 90%, rgba(255,214,0,0.15) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 60% 30%, rgba(139,63,217,0.3) 0%, transparent 50%),
-      var(--dark);
-    z-index: 0;
-  }
-
-  .stars {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  .star {
-    position: absolute;
-    background: var(--yellow);
-    border-radius: 50%;
-    animation: twinkle var(--dur) ease-in-out infinite;
-    opacity: 0;
-  }
-
-  @keyframes twinkle {
-    0%, 100% { opacity: 0; transform: scale(0.5); }
-    50% { opacity: var(--op); transform: scale(1); }
-  }
-
-  /* ── LAYOUT ── */
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 0 20px 80px;
-  }
-
-  /* ── HEADER ── */
-  header {
-    text-align: center;
-    padding: 48px 0 40px;
-    animation: fadeUp 0.8s ease both;
-  }
-
-  .logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 24px;
-  }
-
-  .logo-star {
-    width: 40px;
-    height: 40px;
-    background: var(--yellow);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    animation: spin-slow 8s linear infinite;
-    flex-shrink: 0;
-  }
-
-  @keyframes spin-slow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  .logo-text {
-    font-family: 'Syne', sans-serif;
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    color: var(--white);
-  }
-
-  .logo-text span { color: var(--yellow); }
-
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(32px, 8vw, 52px);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -1px;
-    margin-bottom: 16px;
-  }
-
-  h1 em {
-    font-style: normal;
-    color: var(--yellow);
-    position: relative;
-  }
-
-  .subtitle {
-    font-size: 16px;
-    color: rgba(255,255,255,0.65);
-    font-weight: 400;
-    max-width: 400px;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-
-  /* ── BADGES ── */
-  .badges {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 20px;
-  }
-
-  .badge {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 100px;
-    padding: 6px 14px;
-    font-size: 12px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.7);
-    backdrop-filter: blur(10px);
-  }
-
-  /* ── FORM CARD ── */
-  .form-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 24px;
-    padding: 32px 28px;
-    backdrop-filter: blur(20px);
-    animation: fadeUp 0.8s 0.2s ease both;
-    margin-bottom: 20px;
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--yellow);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .section-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: rgba(255,214,0,0.2);
-  }
-
-  /* ── TABS ── */
-  .tabs {
-    display: flex;
-    background: rgba(0,0,0,0.3);
-    border-radius: 12px;
-    padding: 4px;
-    margin-bottom: 28px;
-    gap: 4px;
-  }
-
-  .tab {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    background: transparent;
-    color: rgba(255,255,255,0.5);
-  }
-
-  .tab.active {
-    background: var(--purple);
-    color: var(--white);
-    box-shadow: 0 4px 15px rgba(92,0,184,0.4);
-  }
-
-  /* ── FORM FIELDS ── */
-  .field {
-    margin-bottom: 16px;
-  }
-
-  label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.6);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 8px;
-  }
-
-  input, select {
-    width: 100%;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 12px;
-    padding: 14px 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    color: var(--white);
-    transition: all 0.2s ease;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-
-  input::placeholder { color: rgba(255,255,255,0.25); }
-
-  input:focus, select:focus {
-    border-color: var(--purple-light);
-    background: rgba(139,63,217,0.1);
-    box-shadow: 0 0 0 3px rgba(92,0,184,0.2);
-  }
-
-  select option { background: #2D0057; color: white; }
-
-  .field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  /* ── MARKS GRID ── */
-  .marks-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 4px;
-  }
-
-  .mark-field {
-    position: relative;
-  }
-
-  .mark-field input {
-    padding-right: 48px;
-    font-size: 18px;
-    font-weight: 700;
-    text-align: center;
-  }
-
-  .mark-label {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 11px;
-    color: rgba(255,255,255,0.3);
-    font-weight: 600;
-  }
-
-  .subject-name {
-    font-size: 11px;
-    color: rgba(255,255,255,0.5);
-    text-align: center;
-    margin-top: 4px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  /* ── OPTIONAL TAG ── */
-  .optional {
-    font-size: 10px;
-    color: rgba(255,255,255,0.3);
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
-    margin-left: 4px;
-  }
-
-  /* ── CTA BUTTON ── */
-  .cta-btn {
-    width: 100%;
-    background: var(--yellow);
-    color: var(--dark);
-    border: none;
-    border-radius: 14px;
-    padding: 18px;
-    font-family: 'Syne', sans-serif;
-    font-size: 17px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 8px;
-    letter-spacing: -0.3px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
-    opacity: 0;
-    transition: opacity 0.25s;
-  }
-
-  .cta-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(255,214,0,0.4);
-  }
-
-  .cta-btn:hover::before { opacity: 1; }
-  .cta-btn:active { transform: translateY(0); }
-
-  .cta-icon { font-size: 20px; }
-
-  /* ── RESULT SECTION ── */
-  #result-section {
-    display: none;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  /* ── MERIT CARD ── */
-  #merit-card {
-    background: linear-gradient(135deg, #3A007A 0%, #5C00B8 40%, #2D0057 100%);
-    border-radius: 24px;
-    padding: 36px 32px;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 20px;
-    min-height: 420px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  #merit-card::before {
-    content: '';
-    position: absolute;
-    top: -60px;
-    right: -60px;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255,214,0,0.2) 0%, transparent 70%);
-    border-radius: 50%;
-  }
-
-  #merit-card::after {
-    content: '';
-    position: absolute;
-    bottom: -40px;
-    left: -40px;
-    width: 150px;
-    height: 150px;
-    background: radial-gradient(circle, rgba(139,63,217,0.4) 0%, transparent 70%);
-    border-radius: 50%;
-  }
-
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 28px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .card-logo {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .card-logo-star {
-    width: 20px;
-    height: 20px;
-    background: var(--yellow);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    flex-shrink: 0;
-  }
-
-  .card-logo-text {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 800;
-    color: rgba(255,255,255,0.8);
-    letter-spacing: -0.3px;
-  }
-
-  .card-logo-text span { color: var(--yellow); }
-
-  .card-year {
-    font-size: 11px;
-    color: rgba(255,255,255,0.4);
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
-
-  .card-name {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(22px, 5vw, 30px);
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 4px;
-    position: relative;
-    z-index: 2;
-    line-height: 1.2;
-  }
-
-  .card-meta {
-    font-size: 13px;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 24px;
-    position: relative;
-    z-index: 2;
-    font-weight: 500;
-  }
-
-  .score-display {
-    display: flex;
-    align-items: flex-end;
-    gap: 4px;
-    margin-bottom: 24px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .score-number {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(56px, 15vw, 80px);
-    font-weight: 800;
-    color: var(--yellow);
-    line-height: 1;
-    letter-spacing: -3px;
-  }
-
-  .score-pct {
-    font-family: 'Syne', sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--yellow-warm);
-    padding-bottom: 8px;
-  }
-
-  .score-max {
-    font-size: 14px;
-    color: rgba(255,255,255,0.4);
-    padding-bottom: 14px;
-    font-weight: 500;
-  }
-
-  .insights-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    position: relative;
-    z-index: 2;
-    flex: 1;
-  }
-
-  .insight-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: rgba(255,255,255,0.07);
-    border-radius: 12px;
-    padding: 12px 14px;
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .insight-icon {
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-
-  .insight-text {
-    font-size: 13px;
-    color: rgba(255,255,255,0.85);
-    font-weight: 500;
-    line-height: 1.4;
-  }
-
-  .insight-text strong {
-    color: var(--yellow);
-    font-weight: 700;
-  }
-
-  .card-footer {
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-  }
-
-  .card-url {
-    font-size: 11px;
-    color: rgba(255,255,255,0.3);
-    font-weight: 600;
-    letter-spacing: 0.5px;
-  }
-
-  .card-badge {
-    background: var(--yellow);
-    color: var(--dark);
-    font-size: 10px;
-    font-weight: 800;
-    padding: 4px 10px;
-    border-radius: 100px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    font-family: 'Syne', sans-serif;
-  }
-
-  /* ── DECORATIVE STARS ON CARD ── */
-  .card-deco-star {
-    position: absolute;
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    background: var(--yellow);
-    opacity: 0.08;
-    z-index: 1;
-  }
-
-  /* ── SHARE BUTTONS ── */
-  .share-section {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 20px;
-    padding: 24px;
-    backdrop-filter: blur(20px);
-    margin-bottom: 16px;
-  }
-
-  .share-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 16px;
-    text-align: center;
-    color: rgba(255,255,255,0.9);
-  }
-
-  .share-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .share-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 14px;
-    border-radius: 12px;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    color: white;
-  }
-
-  .share-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-
-  .btn-whatsapp { background: #25D366; }
-  .btn-instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-  .btn-download { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); }
-  .btn-twitter { background: #000000; border: 1px solid rgba(255,255,255,0.15); }
-
-  .share-icon { font-size: 20px; }
-
-  /* ── EMAIL CAPTURE ── */
-  .email-capture {
-    background: linear-gradient(135deg, rgba(92,0,184,0.3), rgba(58,0,122,0.5));
-    border: 1px solid rgba(139,63,217,0.4);
-    border-radius: 20px;
-    padding: 24px;
-    text-align: center;
-    margin-bottom: 16px;
-  }
-
-  .email-capture h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--white);
-  }
-
-  .email-capture p {
-    font-size: 13px;
-    color: rgba(255,255,255,0.55);
-    margin-bottom: 16px;
-    line-height: 1.5;
-  }
-
-  .email-row {
-    display: flex;
-    gap: 8px;
-  }
-
-  .email-row input {
-    flex: 1;
-    border-radius: 10px;
-    padding: 12px 14px;
-    font-size: 14px;
-  }
-
-  .email-submit {
-    background: var(--purple-light);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 18px;
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-  }
-
-  .email-submit:hover { background: var(--purple); transform: translateY(-1px); }
-
-  .skip-link {
-    display: block;
-    margin-top: 10px;
-    font-size: 12px;
-    color: rgba(255,255,255,0.3);
-    cursor: pointer;
-    text-decoration: underline;
-    background: none;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-  }
-
-  /* ── MAKE ANOTHER ── */
-  .make-another {
-    width: 100%;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 14px;
-    padding: 14px;
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: rgba(255,255,255,0.7);
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-top: 8px;
-  }
-
-  .make-another:hover {
-    background: rgba(255,255,255,0.1);
-    color: white;
-    transform: translateY(-1px);
-  }
-
-  /* ── SCHOOL TAB CONTENT ── */
-  #school-panel { display: none; }
-  #student-panel { display: block; }
-
-  /* ── SOCIAL PROOF ── */
-  .social-proof {
-    text-align: center;
-    padding: 20px 0;
-    font-size: 13px;
-    color: rgba(255,255,255,0.3);
-    animation: fadeUp 0.8s 0.4s ease both;
-  }
-
-  .social-proof strong { color: var(--yellow); }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes popIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    70% { transform: scale(1.05); }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  .pop-in { animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-
-  /* ── CONFETTI ── */
-  .confetti-piece {
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    border-radius: 2px;
-    animation: confettiFall 3s ease-in forwards;
-    pointer-events: none;
-    z-index: 9999;
-  }
-
-  @keyframes confettiFall {
-    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-  }
-
-  /* ── LOADING ── */
-  .loading-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(26,0,51,0.9);
-    z-index: 9998;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 20px;
-    backdrop-filter: blur(10px);
-  }
-
-  .loading-overlay.show { display: flex; }
-
-  .loading-star {
-    width: 60px;
-    height: 60px;
-    background: var(--yellow);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    animation: pulse-star 0.8s ease-in-out infinite alternate;
-  }
-
-  @keyframes pulse-star {
-    from { transform: scale(0.8) rotate(-10deg); }
-    to { transform: scale(1.2) rotate(10deg); }
-  }
-
-  .loading-text {
-    font-family: 'Syne', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--white);
-  }
-
-  /* ── SUCCESS MESSAGE ── */
-  .success-msg {
-    display: none;
-    background: rgba(16,185,129,0.15);
-    border: 1px solid rgba(16,185,129,0.3);
-    border-radius: 10px;
-    padding: 12px;
-    text-align: center;
-    font-size: 13px;
-    color: #6EE7B7;
-    font-weight: 500;
-    margin-top: 8px;
-  }
-
-  /* Mobile */
-  @media (max-width: 480px) {
-    .form-card { padding: 24px 20px; }
-    .field-row { grid-template-columns: 1fr; }
-    #merit-card { padding: 28px 24px; }
-    .email-row { flex-direction: column; }
-    .share-buttons { gap: 8px; }
-  }
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --purple:       #6C2FD9;
+  --purple-dark:  #4C1FA8;
+  --purple-mid:   #8B4FE8;
+  --purple-light: #EDE9FE;
+  --purple-pale:  #F5F0FF;
+  --yellow:       #F5A623;
+  --yellow-bright:#FCD34D;
+  --yellow-light: #FFFBEB;
+  --white:        #FFFFFF;
+  --gray-50:      #F9FAFB;
+  --gray-100:     #F3F4F6;
+  --gray-200:     #E5E7EB;
+  --gray-400:     #9CA3AF;
+  --gray-600:     #4B5563;
+  --gray-800:     #1F2937;
+  --green:        #10B981;
+  --green-light:  #D1FAE5;
+  --blue:         #3B82F6;
+  --blue-light:   #DBEAFE;
+  --orange:       #F97316;
+  --orange-light: #FFEDD5;
+  --red:          #EF4444;
+  --red-light:    #FEE2E2;
+  --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  --radius: 20px;
+  --shadow: 0 12px 48px rgba(108,47,217,0.18);
+  --shadow-sm: 0 4px 20px rgba(108,47,217,0.1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--white); color: var(--gray-800); overflow-x: hidden; }
+
+/* ─── Page system ─── */
+.page { display: none; min-height: 100vh; flex-direction: column; }
+.page.active { display: flex; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── Confetti ─── */
+.confetti-wrap { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; overflow: hidden; }
+.cp { position: absolute; border-radius: 2px; animation: cf linear forwards; }
+@keyframes cf { 0% { transform: translateY(-20px) rotate(0deg); opacity:1; } 100% { transform: translateY(105vh) rotate(720deg); opacity:0; } }
+
+/* ══════════════════════════════════════════════
+   PAGE 1 — LANDING
+══════════════════════════════════════════════ */
+
+/* Site header */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 24px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--gray-100);
+}
+.site-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.site-logo .star { font-size: 24px; animation: pulse 3s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2) rotate(10deg); } }
+.site-logo span { font-size: 20px; font-weight: 800; color: var(--purple); }
+.btn-nav {
+  padding: 10px 22px; background: var(--purple); color: var(--white);
+  border: none; border-radius: 50px; font-family: var(--font); font-size: 14px;
+  font-weight: 700; cursor: pointer; transition: transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(108,47,217,0.35);
+}
+.btn-nav:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,47,217,0.4); }
+
+/* Hero */
+.hero {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 40px; align-items: center;
+  max-width: 1100px; margin: 0 auto;
+  padding: 60px 32px 48px;
+}
+.hero-text h1 {
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 900; line-height: 1.1;
+  color: var(--gray-800); margin-bottom: 16px;
+}
+.hero-text h1 .accent { color: var(--purple); }
+.hero-text p {
+  font-size: 17px; color: var(--gray-600); line-height: 1.65;
+  margin-bottom: 28px; max-width: 440px;
+}
+.hero-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+.badge {
+  padding: 5px 12px; background: var(--purple-pale);
+  color: var(--purple); border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+}
+.btn-hero {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 16px 36px; background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
+  color: var(--white); border: none; border-radius: 50px;
+  font-family: var(--font); font-size: 17px; font-weight: 800;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 6px 28px rgba(108,47,217,0.4);
+}
+.btn-hero:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(108,47,217,0.45); }
+.btn-hero .arrow { transition: transform 0.2s; }
+.btn-hero:hover .arrow { transform: translateX(4px); }
+.hero-sub { margin-top: 14px; font-size: 13px; color: var(--gray-400); }
+
+/* Demo card carousel */
+.hero-card-wrap {
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  gap: 16px;
+}
+.card-carousel {
+  position: relative; width: 340px; height: 510px;
+  animation: float 5s ease-in-out infinite;
+}
+@keyframes float { 0%,100% { transform: translateY(0px) rotate(-1deg); } 50% { transform: translateY(-12px) rotate(1deg); } }
+.carousel-slide {
+  position: absolute; top: 0; left: 0; width: 100%;
+  opacity: 0; transform: translateY(18px) scale(0.97);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+  pointer-events: none;
+}
+.carousel-slide.active {
+  opacity: 1; transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.carousel-dots {
+  display: flex; gap: 7px; justify-content: center;
+}
+.cdot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--purple-light); border: none; cursor: pointer;
+  padding: 0; transition: background 0.25s, transform 0.25s;
+}
+.cdot.active { background: var(--purple); transform: scale(1.3); }
+
+/* ─── MERIT CARD (shared by demo + generated) ─── */
+.merit-card {
+  width: 340px; background: var(--white);
+  border-radius: 24px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(108,47,217,0.25), 0 4px 16px rgba(0,0,0,0.08);
+  position: relative; flex-shrink: 0;
+}
+.mc-top {
+  background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple) 60%, var(--purple-mid) 100%);
+  padding: 16px 18px 20px;
+  position: relative; overflow: hidden;
+}
+.mc-top::before {
+  content: ''; position: absolute; top: -30px; right: -30px;
+  width: 120px; height: 120px;
+  background: rgba(252,211,77,0.15); border-radius: 50%;
+}
+.mc-top::after {
+  content: ''; position: absolute; bottom: -20px; left: -20px;
+  width: 80px; height: 80px;
+  background: rgba(255,255,255,0.08); border-radius: 50%;
+}
+.mc-top-row { display: flex; justify-content: space-between; align-items: flex-start; position: relative; z-index: 1; }
+.mc-logo { display: flex; align-items: center; gap: 5px; }
+.mc-logo-star { font-size: 16px; }
+.mc-logo-text { font-size: 14px; font-weight: 800; color: var(--yellow-bright); letter-spacing: 0.5px; }
+.mc-class-badge {
+  background: var(--yellow); color: var(--purple-dark);
+  border-radius: 8px; padding: 4px 10px;
+  font-size: 10px; font-weight: 800; text-align: center; line-height: 1.4;
+}
+
+.mc-persona-row {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 18px 18px 0; text-align: center; position: relative; z-index: 1;
+}
+.mc-persona-icon { font-size: 36px; margin-bottom: 4px; }
+.mc-persona-name { font-size: 21px; font-weight: 900; color: var(--white); line-height: 1.1; }
+.mc-persona-sub { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 4px; }
+
+.mc-body { padding: 16px 18px; }
+
+.mc-score-row { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+.mc-score-circle {
+  width: 90px; height: 90px; border-radius: 50%;
+  background: conic-gradient(var(--yellow) 0%, var(--yellow-bright) 100%);
+  box-shadow: 0 0 0 5px rgba(245,166,35,0.2), 0 6px 20px rgba(245,166,35,0.3);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.mc-score-inner { text-align: center; }
+.mc-score-num { font-size: 22px; font-weight: 900; color: var(--purple-dark); line-height: 1; }
+.mc-score-lbl { font-size: 9px; font-weight: 700; color: var(--purple-dark); opacity: 0.7; }
+.mc-score-info { flex: 1; }
+.mc-grade-pill {
+  display: inline-block; padding: 4px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 700; margin-bottom: 6px;
+}
+.mc-student-name { font-size: 15px; font-weight: 800; color: var(--gray-800); }
+.mc-student-meta { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+
+.mc-subjects { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.mc-subj {
+  background: var(--gray-50); border-radius: 12px; padding: 10px 8px;
+  text-align: center; border: 1.5px solid var(--gray-100);
+}
+.mc-subj-icon { font-size: 20px; margin-bottom: 2px; }
+.mc-subj-name { font-size: 10px; font-weight: 600; color: var(--gray-600); margin-bottom: 4px; }
+.mc-subj-rating {
+  display: inline-block; padding: 2px 8px; border-radius: 10px;
+  font-size: 10px; font-weight: 700;
+}
+
+.mc-progress-row {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--yellow-light); border: 1.5px solid #FDE68A;
+  border-radius: 10px; padding: 8px 12px; margin-bottom: 12px;
+}
+.mc-progress-icon { font-size: 18px; }
+.mc-progress-text { font-size: 12px; font-weight: 600; color: #92400E; }
+
+.mc-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 18px; background: var(--purple-pale);
+  border-top: 1.5px solid var(--purple-light);
+}
+.mc-watermark { font-size: 11px; font-weight: 700; color: var(--purple); letter-spacing: 0.5px; }
+.mc-date { font-size: 10px; color: var(--gray-400); }
+
+/* Grade / rating colour helpers */
+.g-exceptional { background: linear-gradient(135deg,#FDE68A,#F59E0B); color: #78350F; }
+.g-outstanding  { background: var(--purple-light); color: var(--purple-dark); }
+.g-above-avg    { background: var(--blue-light);   color: #1E40AF; }
+.g-good         { background: var(--green-light);  color: #065F46; }
+.g-progressing  { background: var(--orange-light); color: #9A3412; }
+.g-keep-going   { background: var(--gray-100);     color: var(--gray-600); }
+
+.r-high   { background: var(--green-light);  color: #065F46; }
+.r-good   { background: var(--blue-light);   color: #1E40AF; }
+.r-avg    { background: var(--orange-light); color: #9A3412; }
+.r-focus  { background: var(--red-light);    color: #991B1B; }
+
+/* ─── Carousel card variant overrides ─── */
+
+/* V1: Warm Cream / Identity */
+.cv1 { background: #FFFBF0; }
+.cv1 .mc-top {
+  background: #FFFBF0;
+  border-bottom: 2px solid #F3E8C8;
+}
+.cv1 .mc-top::before { background: rgba(108,47,217,0.06); }
+.cv1 .mc-top::after  { background: rgba(245,166,35,0.08); }
+.cv1 .mc-logo-text   { color: var(--purple); }
+.cv1 .mc-class-badge { background: #F5A623; color: #fff; }
+.cv1 .mc-persona-icon { font-size: 52px; }
+.cv1 .mc-persona-name { color: #1F2937; font-size: 22px; }
+.cv1 .mc-persona-sub  { color: var(--purple); font-weight: 700; font-size: 12px; }
+.cv1 .mc-body         { background: #FFFBF0; }
+.cv1 .mc-student-name { color: #1F2937; }
+.cv1 .mc-student-meta { color: #9CA3AF; }
+.cv1 .mc-subj         { background: #FFFFFF; border-color: #F3E8C8; }
+.cv1 .mc-subj-name    { color: #4B5563; }
+.cv1 .mc-footer       { background: #FFF3D0; border-top-color: #F3E8C8; }
+.cv1 .mc-watermark    { color: var(--purple); }
+.cv1 .mc-date         { color: #9CA3AF; }
+
+/* V2: Dark Forest Green / Pride */
+.cv2 { background: #1B4D3E; }
+.cv2 .mc-top {
+  background: linear-gradient(135deg, #14382D 0%, #1B4D3E 60%, #226047 100%);
+}
+.cv2 .mc-top::before { background: rgba(74,222,128,0.12); }
+.cv2 .mc-top::after  { background: rgba(255,255,255,0.04); }
+.cv2 .mc-logo-text   { color: #FCD34D; }
+.cv2 .mc-class-badge { background: #FCD34D; color: #1B4D3E; }
+.cv2 .mc-persona-name { color: #FFFFFF; }
+.cv2 .mc-persona-sub  { color: rgba(255,255,255,0.75); }
+.cv2 .mc-body         { background: #1B4D3E; }
+.cv2 .mc-student-name { color: #FFFFFF; }
+.cv2 .mc-student-meta { color: rgba(255,255,255,0.55); }
+.cv2 .mc-subj         { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.14); }
+.cv2 .mc-subj-name    { color: rgba(255,255,255,0.8); }
+.cv2 .r-high          { background: rgba(74,222,128,0.25); color: #6EE7B7; }
+.cv2 .r-good          { background: rgba(96,165,250,0.25); color: #93C5FD; }
+.cv2 .r-avg           { background: rgba(251,191,36,0.25); color: #FDE68A; }
+.cv2 .mc-progress-row { background: rgba(255,255,255,0.08); border-color: rgba(252,211,77,0.4); }
+.cv2 .mc-progress-text { color: #FCD34D; }
+.cv2 .mc-footer        { background: rgba(0,0,0,0.25); border-top-color: rgba(255,255,255,0.1); }
+.cv2 .mc-watermark     { color: #FCD34D; }
+.cv2 .mc-date          { color: rgba(255,255,255,0.4); }
+.cv2 .mc-score-circle  {
+  background: conic-gradient(#4ADE80 0%, #86EFAC 100%);
+  box-shadow: 0 0 0 5px rgba(74,222,128,0.15), 0 6px 20px rgba(74,222,128,0.2);
+}
+.cv2 .mc-score-num  { color: #14532D; }
+.cv2 .mc-score-lbl  { color: #14532D; }
+.cv2 .g-outstanding { background: rgba(74,222,128,0.2); color: #6EE7B7; }
+
+/* V3: Soft Lavender / Curiosity */
+.cv3 { background: #F0EBFF; }
+.cv3 .mc-top {
+  background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 60%, #8B5CF6 100%);
+}
+.cv3 .mc-logo-text   { color: #FCD34D; }
+.cv3 .mc-class-badge { background: #FCD34D; color: #5B21B6; }
+.cv3 .mc-body        { background: #F0EBFF; }
+.cv3 .mc-student-name { color: #1F2937; }
+.cv3 .mc-student-meta { color: #6B7280; }
+.cv3 .mc-subj         { background: #FFFFFF; border-color: #DDD6FE; }
+.cv3 .mc-subj-name    { color: #5B21B6; }
+.cv3 .mc-score-circle {
+  background: conic-gradient(#7C3AED 0%, #A78BFA 100%);
+  box-shadow: 0 0 0 5px rgba(124,58,237,0.15), 0 6px 20px rgba(124,58,237,0.25);
+}
+.cv3 .mc-score-num { color: #FFFFFF; }
+.cv3 .mc-score-lbl { color: rgba(255,255,255,0.8); }
+.cv3 .mc-footer    { background: #EDE9FE; border-top-color: #DDD6FE; }
+.cv3 .mc-watermark { color: #6C2FD9; }
+.cv3 .mc-date      { color: #9CA3AF; }
+
+/* V4: Deep Navy / Visual Score */
+.cv4 { background: #0F172A; }
+.cv4 .mc-top {
+  background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 60%, #1E3A5F 100%);
+}
+.cv4 .mc-top::before { background: rgba(245,166,35,0.1); }
+.cv4 .mc-top::after  { background: rgba(96,165,250,0.06); }
+.cv4 .mc-logo-text   { color: #FCD34D; }
+.cv4 .mc-class-badge { background: #F59E0B; color: #0F172A; }
+.cv4 .mc-persona-name { color: #FFFFFF; }
+.cv4 .mc-persona-sub  { color: rgba(255,255,255,0.65); }
+.cv4 .mc-body         { background: #0F172A; }
+.cv4 .mc-student-name { color: #FFFFFF; }
+.cv4 .mc-student-meta { color: rgba(255,255,255,0.5); }
+.cv4 .mc-subj         { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.1); }
+.cv4 .mc-subj-name    { color: rgba(255,255,255,0.7); }
+.cv4 .r-high  { background: rgba(245,158,11,0.25); color: #FCD34D; }
+.cv4 .r-good  { background: rgba(96,165,250,0.25); color: #93C5FD; }
+.cv4 .r-avg   { background: rgba(251,191,36,0.2);  color: #FDE68A; }
+.cv4 .mc-score-circle {
+  background: conic-gradient(#F59E0B 0%, #FCD34D 100%);
+  box-shadow: 0 0 0 5px rgba(245,158,11,0.2), 0 6px 24px rgba(245,158,11,0.3);
+}
+.cv4 .g-exceptional { background: rgba(245,158,11,0.2); color: #FCD34D; border: 1px solid rgba(245,158,11,0.3); }
+.cv4 .mc-footer     { background: rgba(0,0,0,0.35); border-top-color: rgba(255,255,255,0.08); }
+.cv4 .mc-watermark  { color: #FCD34D; }
+.cv4 .mc-date       { color: rgba(255,255,255,0.35); }
+
+/* V5: Coral / Social Trigger */
+.cv5 { background: #FFF0F3; }
+.cv5 .mc-top {
+  background: linear-gradient(135deg, #E63946 0%, #FF6B6B 50%, #FF8E72 100%);
+}
+.cv5 .mc-top::before { background: rgba(255,255,255,0.12); }
+.cv5 .mc-top::after  { background: rgba(255,255,255,0.07); }
+.cv5 .mc-logo-text   { color: #FFFFFF; }
+.cv5 .mc-class-badge { background: #FFFFFF; color: #E63946; }
+.cv5 .mc-persona-name { color: #FFFFFF; }
+.cv5 .mc-persona-sub  { color: rgba(255,255,255,0.85); }
+.cv5 .mc-body         { background: #FFF0F3; }
+.cv5 .mc-student-name { color: #1F2937; }
+.cv5 .mc-student-meta { color: #9CA3AF; }
+.cv5 .mc-subj         { background: #FFFFFF; border-color: #FFD6DF; }
+.cv5 .mc-subj-name    { color: #E63946; }
+.cv5 .r-high  { background: #FFD6DF; color: #9B1239; }
+.cv5 .r-good  { background: #FECDD3; color: #9B1239; }
+.cv5 .r-avg   { background: #FED7AA; color: #9A3412; }
+.cv5 .mc-score-circle {
+  background: conic-gradient(#E63946 0%, #FF6B6B 100%);
+  box-shadow: 0 0 0 5px rgba(230,57,70,0.15), 0 6px 20px rgba(230,57,70,0.25);
+}
+.cv5 .mc-score-num   { color: #FFFFFF; }
+.cv5 .mc-score-lbl   { color: rgba(255,255,255,0.85); }
+.cv5 .g-above-avg    { background: #FFD6DF; color: #9B1239; }
+.cv5 .mc-footer      { background: #FFE4EB; border-top-color: #FFD6DF; }
+.cv5 .mc-watermark   { color: #E63946; }
+.cv5 .mc-date        { color: #9CA3AF; }
+
+/* How it works */
+.how-section { background: var(--purple-pale); padding: 60px 24px; text-align: center; }
+.how-section h2 { font-size: 28px; font-weight: 800; color: var(--gray-800); margin-bottom: 8px; }
+.how-section .sub { font-size: 16px; color: var(--gray-600); margin-bottom: 40px; }
+.steps { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; max-width: 900px; margin: 0 auto; }
+.step {
+  background: var(--white); border-radius: var(--radius); padding: 28px 24px;
+  width: 260px; text-align: center; box-shadow: var(--shadow-sm);
+}
+.step-num {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+  color: var(--white); font-size: 18px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+}
+.step h3 { font-size: 16px; font-weight: 700; color: var(--gray-800); margin-bottom: 6px; }
+.step p { font-size: 14px; color: var(--gray-600); line-height: 1.5; }
+
+/* Personas showcase */
+.personas-section { padding: 60px 24px; max-width: 1100px; margin: 0 auto; }
+.personas-section h2 { font-size: 26px; font-weight: 800; text-align: center; margin-bottom: 32px; }
+.persona-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.persona-chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 16px; background: var(--white);
+  border: 2px solid var(--purple-light); border-radius: 50px;
+  font-size: 13px; font-weight: 700; color: var(--purple-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Landing footer */
+.landing-footer { text-align: center; padding: 24px; background: var(--gray-50); font-size: 12px; color: var(--gray-400); border-top: 1px solid var(--gray-200); }
+.btn-cta-bottom {
+  display: inline-block; margin-bottom: 16px;
+  padding: 14px 36px; background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
+  color: var(--white); border: none; border-radius: 50px;
+  font-family: var(--font); font-size: 16px; font-weight: 700;
+  cursor: pointer; box-shadow: 0 6px 24px rgba(108,47,217,0.35);
+  transition: transform 0.15s;
+}
+.btn-cta-bottom:hover { transform: translateY(-2px); }
+
+/* ══════════════════════════════════════════════
+   PAGE 2 — FORM
+══════════════════════════════════════════════ */
+.form-page-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 24px; border-bottom: 1px solid var(--gray-200);
+  background: var(--white); position: sticky; top: 0; z-index: 10;
+}
+.btn-back {
+  display: flex; align-items: center; gap: 6px;
+  background: none; border: none; font-family: var(--font);
+  font-size: 14px; font-weight: 600; color: var(--purple);
+  cursor: pointer; padding: 6px 12px; border-radius: 8px;
+  transition: background 0.15s;
+}
+.btn-back:hover { background: var(--purple-pale); }
+.form-step-label { margin-left: auto; font-size: 13px; font-weight: 600; color: var(--gray-400); }
+
+.form-wrap { max-width: 560px; margin: 0 auto; padding: 28px 20px 60px; flex: 1; }
+.form-wrap h2 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.form-wrap .form-subtitle { font-size: 14px; color: var(--gray-600); margin-bottom: 24px; }
+
+.tabs { display: flex; background: var(--gray-100); border-radius: 12px; padding: 4px; gap: 4px; margin-bottom: 22px; }
+.tab-btn {
+  flex: 1; padding: 10px 12px; border: none; border-radius: 9px;
+  font-family: var(--font); font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; background: transparent; color: var(--gray-600);
+}
+.tab-btn.active { background: var(--purple); color: var(--white); box-shadow: 0 3px 12px rgba(108,47,217,0.3); }
+
+.form-tab { display: none; }
+.form-tab.active { display: block; }
+
+.fg { margin-bottom: 16px; }
+label { display: block; font-size: 13px; font-weight: 600; color: var(--gray-600); margin-bottom: 6px; }
+label .opt { font-weight: 400; color: var(--gray-400); font-size: 11px; }
+input[type="text"], input[type="number"], select, input[type="email"] {
+  width: 100%; padding: 12px 14px;
+  border: 1.5px solid var(--gray-200); border-radius: 12px;
+  font-family: var(--font); font-size: 15px; color: var(--gray-800);
+  background: var(--gray-50); transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none; -webkit-appearance: none; appearance: none;
+}
+input:focus, select:focus {
+  border-color: var(--purple); box-shadow: 0 0 0 3px rgba(108,47,217,0.1); background: var(--white);
+}
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.subj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.subj-item { display: flex; flex-direction: column; gap: 4px; }
+.subj-item label { font-size: 12px; margin-bottom: 0; }
+
+.btn-generate {
+  width: 100%; padding: 16px; margin-top: 10px;
+  background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
+  color: var(--white); border: none; border-radius: 14px;
+  font-family: var(--font); font-size: 17px; font-weight: 800;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 6px 24px rgba(108,47,217,0.38);
+}
+.btn-generate:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(108,47,217,0.44); }
+.btn-generate:active { transform: translateY(0); }
+
+/* ══════════════════════════════════════════════
+   PAGE 3 — RESULT
+══════════════════════════════════════════════ */
+.result-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 24px; border-bottom: 1px solid var(--gray-200);
+  background: var(--white); position: sticky; top: 0; z-index: 10;
+}
+.result-header .logo-sm { font-size: 16px; font-weight: 800; color: var(--purple); }
+
+.result-wrap { max-width: 460px; margin: 0 auto; padding: 24px 16px 60px; flex: 1; }
+.result-title { text-align: center; margin-bottom: 24px; }
+.result-title h2 { font-size: 22px; font-weight: 800; }
+.result-title p { font-size: 14px; color: var(--gray-600); margin-top: 4px; }
+
+/* Generated card container — this is what gets downloaded */
+#capture-card { width: 100%; }
+
+/* Share section */
+.share-section { margin-top: 24px; }
+.share-section h3 {
+  font-size: 12px; font-weight: 700; color: var(--gray-400);
+  text-transform: uppercase; letter-spacing: 1.5px;
+  text-align: center; margin-bottom: 14px;
+}
+.share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn-share {
+  padding: 13px 12px; border: none; border-radius: 14px;
+  font-family: var(--font); font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-share:hover { transform: translateY(-2px); }
+.bs-whatsapp { background: #25D366; color: var(--white); box-shadow: 0 4px 16px rgba(37,211,102,0.3); }
+.bs-instagram { background: linear-gradient(135deg,#F58529,#DD2A7B,#8134AF); color: var(--white); box-shadow: 0 4px 16px rgba(221,42,123,0.3); }
+.bs-email { background: var(--gray-100); color: var(--gray-800); border: 1.5px solid var(--gray-200); }
+.bs-png { background: linear-gradient(135deg, var(--purple), var(--purple-dark)); color: var(--white); box-shadow: 0 4px 16px rgba(108,47,217,0.3); }
+.bs-pdf { background: var(--white); color: #E63946; border: 1.5px solid #FECDD3; }
+.bs-new { background: var(--white); color: var(--gray-600); border: 1.5px solid var(--gray-200); }
+
+.share-full { grid-column: 1 / -1; }
+
+.safe-msg {
+  margin-top: 20px; padding: 14px 16px;
+  background: linear-gradient(135deg,#F0FDF4,#ECFDF5);
+  border: 1.5px solid #86EFAC; border-radius: 14px;
+  font-size: 12px; color: #166534; line-height: 1.6;
+}
+.safe-msg strong { display: block; font-size: 13px; margin-bottom: 4px; }
+
+/* ─── Responsive ─── */
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; padding: 32px 20px 24px; gap: 28px; }
+  .hero-card-wrap { order: -1; }
+  .hero-text h1 { font-size: 28px; }
+  .merit-card { width: 300px; }
+  .mc-score-circle { width: 76px; height: 76px; }
+  .mc-score-num { font-size: 18px; }
+}
+@media (max-width: 480px) {
+  .row-2, .subj-grid { grid-template-columns: 1fr; }
+  .merit-card { width: 100%; max-width: 340px; }
+}
+
+/* Print styles (PDF) */
+@media print {
+  body > * { display: none !important; }
+  #print-area { display: block !important; }
+  #print-area .merit-card { box-shadow: none; }
+}
+#print-area { display: none; }
+.btn-add-subj {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 10px; padding: 9px 16px;
+  background: var(--purple-pale); color: var(--purple);
+  border: 2px dashed var(--purple-light); border-radius: 12px;
+  font-family: var(--font); font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background 0.15s; width: 100%;
+}
+.btn-add-subj:hover { background: var(--purple-light); }
+.extra-subj-row {
+  display: grid; grid-template-columns: 1fr 1fr auto;
+  gap: 6px; align-items: end; margin-top: 8px;
+}
+.btn-remove-subj {
+  padding: 12px 10px; background: var(--red-light); color: var(--red);
+  border: none; border-radius: 10px; cursor: pointer; font-size: 13px;
+  font-family: var(--font); flex-shrink: 0;
+}
+.site-footer-feedback {
+  text-align: center; padding: 14px 24px 18px;
+  background: var(--gray-50); font-size: 12px; color: var(--gray-400);
+  border-top: 1px solid var(--gray-200); flex-shrink: 0;
+}
+.site-footer-feedback a { color: var(--purple); text-decoration: none; }
 </style>
 </head>
 <body>
 
-<!-- Background -->
-<div class="bg-mesh"></div>
-<div class="stars" id="stars"></div>
+<div class="confetti-wrap" id="confetti-wrap"></div>
+<div id="print-area"></div>
 
-<!-- Loading -->
-<div class="loading-overlay" id="loading">
-  <div class="loading-star"></div>
-  <div class="loading-text">Calculating your star moment...</div>
-</div>
+<!-- ══════════════════════════════════════════
+     PAGE 1: LANDING
+══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
 
-<div class="container">
-
-  <!-- Header -->
-  <header>
-    <div class="logo">
-      <div class="logo-star"></div>
-      <div class="logo-text">Merit<span>Star</span></div>
-    </div>
-    <h1>Your marks deserve<br>a <em>star moment</em></h1>
-    <p class="subtitle">Enter your results. Get powerful insights. Share your achievement with the world.</p>
-    <div class="badges">
-      <span class="badge">⚡ Instant card</span>
-      <span class="badge">📊 National comparison</span>
-      <span class="badge">🆓 100% Free</span>
-    </div>
+  <header class="site-header">
+    <a class="site-logo" href="#">
+      <span class="star">⭐</span>
+      <span>MyMeritStar</span>
+    </a>
+    <button class="btn-nav" onclick="goTo('form')">Generate My Card →</button>
   </header>
 
-  <!-- Form Section -->
-  <div id="form-section">
-    <div class="form-card">
-
-      <!-- Tabs -->
-      <div class="tabs">
-        <button class="tab active" onclick="switchTab('student')">🎓 Student / Parent</button>
-        <button class="tab" onclick="switchTab('school')">🏫 School / Institute</button>
-      </div>
-
-      <!-- Student Panel -->
-      <div id="student-panel">
-        <div class="section-title">Your Details</div>
-
-        <div class="field">
-          <label>Student Name <span class="optional">(optional)</span></label>
-          <input type="text" id="student-name" placeholder="e.g. Arjun Sharma">
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Your score.<br><span class="accent">Your story.</span><br>Your card.</h1>
+        <p>Generate a beautiful, shareable achievement card from your exam marks — in under 30 seconds. Works for CBSE, ICSE, State Board, JEE, NEET.</p>
+        <div class="hero-badges">
+          <span class="badge">✅ No sign-up needed</span>
+          <span class="badge">🔒 Nothing stored</span>
+          <span class="badge">📱 Share anywhere</span>
+          <span class="badge">🆓 Free forever</span>
         </div>
-
-        <div class="field-row">
-          <div class="field">
-            <label>Class</label>
-            <select id="student-class" onchange="updateSubjects()">
-              <option value="">Select class</option>
-              <option value="10">Class 10</option>
-              <option value="12-science">Class 12 — Science</option>
-              <option value="12-commerce">Class 12 — Commerce</option>
-              <option value="12-humanities">Class 12 — Humanities</option>
-              <option value="jee">JEE Mains / Advanced</option>
-              <option value="neet">NEET</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Board</label>
-            <select id="student-board">
-              <option value="">Select board</option>
-              <option value="CBSE">CBSE</option>
-              <option value="ICSE">ICSE</option>
-              <option value="State Board">State Board</option>
-              <option value="IB">IB</option>
-              <option value="IGCSE">IGCSE</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>City <span class="optional">(optional)</span></label>
-          <input type="text" id="student-city" placeholder="e.g. Bengaluru">
-        </div>
-
-        <div class="section-title" style="margin-top:24px;">Your Marks</div>
-        <div id="marks-container" class="marks-grid">
-          <!-- Populated by JS -->
-        </div>
-
-        <div class="field" style="margin-top:20px;">
-          <label>Previous Year % <span class="optional">(optional — shows growth)</span></label>
-          <input type="number" id="prev-percent" placeholder="e.g. 78" min="0" max="100">
-        </div>
-
-        <button class="cta-btn" onclick="generateCard()">
-          <span class="cta-icon">⭐</span>
-          Generate My MeritStar
+        <button class="btn-hero" onclick="goTo('form')">
+          Generate My Card <span class="arrow">→</span>
         </button>
+        <p class="hero-sub">Takes 30 seconds · Works for all Indian boards</p>
       </div>
 
-      <!-- School Panel -->
-      <div id="school-panel">
-        <div class="section-title">Institution Details</div>
+      <!-- Demo card carousel -->
+      <div class="hero-card-wrap">
+        <div class="card-carousel" id="card-carousel">
 
-        <div class="field">
-          <label>School / Institute Name</label>
-          <input type="text" id="school-name" placeholder="e.g. Bethany High School">
+          <!-- Card 1: The Engineer — Warm Cream -->
+          <div class="carousel-slide active">
+            <div class="merit-card cv1">
+              <div class="mc-top">
+                <div class="mc-top-row">
+                  <div class="mc-logo"><span class="mc-logo-star">⭐</span><span class="mc-logo-text">MYMERITSTAR</span></div>
+                  <div class="mc-class-badge">Report for<br>Class 12</div>
+                </div>
+                <div class="mc-persona-row">
+                  <div class="mc-persona-icon">⚙️</div>
+                  <div class="mc-persona-name">The Engineer</div>
+                  <div class="mc-persona-sub">Strong in Physics &amp; Maths</div>
+                </div>
+              </div>
+              <div class="mc-body">
+                <div class="mc-score-row">
+                  <div class="mc-score-circle"><div class="mc-score-inner"><div class="mc-score-num">93.4%</div><div class="mc-score-lbl">Overall</div></div></div>
+                  <div class="mc-score-info">
+                    <div class="mc-grade-pill g-exceptional">🥇 Exceptional</div>
+                    <div class="mc-student-name">Priya Sharma</div>
+                    <div class="mc-student-meta">CBSE · Class 12 Science</div>
+                  </div>
+                </div>
+                <div class="mc-subjects">
+                  <div class="mc-subj"><div class="mc-subj-icon">⚡</div><div class="mc-subj-name">Physics</div><div class="mc-subj-rating r-high">High</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">⚗️</div><div class="mc-subj-name">Chemistry</div><div class="mc-subj-rating r-high">High</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">📐</div><div class="mc-subj-name">Maths</div><div class="mc-subj-rating r-high">High</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">📖</div><div class="mc-subj-name">English</div><div class="mc-subj-rating r-good">Good</div></div>
+                </div>
+              </div>
+              <div class="mc-footer"><span class="mc-watermark">⭐ meritstar.in</span><span class="mc-date">May 2026</span></div>
+            </div>
+          </div>
+
+          <!-- Card 2: The Comeback Kid — Dark Green -->
+          <div class="carousel-slide">
+            <div class="merit-card cv2">
+              <div class="mc-top">
+                <div class="mc-top-row">
+                  <div class="mc-logo"><span class="mc-logo-star">⭐</span><span class="mc-logo-text">MYMERITSTAR</span></div>
+                  <div class="mc-class-badge">Report for<br>Class 10</div>
+                </div>
+                <div class="mc-persona-row">
+                  <div class="mc-persona-icon">🔥</div>
+                  <div class="mc-persona-name">The Comeback Kid</div>
+                  <div class="mc-persona-sub">Remarkable improvement this year</div>
+                </div>
+              </div>
+              <div class="mc-body">
+                <div class="mc-score-row">
+                  <div class="mc-score-circle"><div class="mc-score-inner"><div class="mc-score-num">81.6%</div><div class="mc-score-lbl">Overall</div></div></div>
+                  <div class="mc-score-info">
+                    <div class="mc-grade-pill g-outstanding">🌟 Outstanding</div>
+                    <div class="mc-student-name">Arjun Mehta</div>
+                    <div class="mc-student-meta">State Board · Class 10</div>
+                  </div>
+                </div>
+                <div class="mc-subjects">
+                  <div class="mc-subj"><div class="mc-subj-icon">📐</div><div class="mc-subj-name">Maths</div><div class="mc-subj-rating r-high">High</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">🔬</div><div class="mc-subj-name">Science</div><div class="mc-subj-rating r-good">Good</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">📖</div><div class="mc-subj-name">English</div><div class="mc-subj-rating r-good">Good</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">🌍</div><div class="mc-subj-name">Soc. Studies</div><div class="mc-subj-rating r-avg">Average</div></div>
+                </div>
+                <div class="mc-progress-row">
+                  <div class="mc-progress-icon">🚀</div>
+                  <div class="mc-progress-text">+18.2% improvement vs last year!</div>
+                </div>
+              </div>
+              <div class="mc-footer"><span class="mc-watermark">⭐ meritstar.in</span><span class="mc-date">May 2026</span></div>
+            </div>
+          </div>
+
+          <!-- Card 3: The Future CEO — Soft Lavender -->
+          <div class="carousel-slide">
+            <div class="merit-card cv3">
+              <div class="mc-top">
+                <div class="mc-top-row">
+                  <div class="mc-logo"><span class="mc-logo-star">⭐</span><span class="mc-logo-text">MYMERITSTAR</span></div>
+                  <div class="mc-class-badge">Report for<br>Class 12</div>
+                </div>
+                <div class="mc-persona-row">
+                  <div class="mc-persona-icon">💼</div>
+                  <div class="mc-persona-name">The Future CEO</div>
+                  <div class="mc-persona-sub">Strong in Business Studies</div>
+                </div>
+              </div>
+              <div class="mc-body">
+                <div class="mc-score-row">
+                  <div class="mc-score-circle"><div class="mc-score-inner"><div class="mc-score-num">87.0%</div><div class="mc-score-lbl">Overall</div></div></div>
+                  <div class="mc-score-info">
+                    <div class="mc-grade-pill g-outstanding">🌟 Outstanding</div>
+                    <div class="mc-student-name">Sneha Kapoor</div>
+                    <div class="mc-student-meta">ICSE · Class 12 Commerce</div>
+                  </div>
+                </div>
+                <div class="mc-subjects">
+                  <div class="mc-subj"><div class="mc-subj-icon">💼</div><div class="mc-subj-name">Business</div><div class="mc-subj-rating r-high">High</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">📊</div><div class="mc-subj-name">Accounts</div><div class="mc-subj-rating r-high">High</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">📈</div><div class="mc-subj-name">Economics</div><div class="mc-subj-rating r-good">Good</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">📖</div><div class="mc-subj-name">English</div><div class="mc-subj-rating r-good">Good</div></div>
+                </div>
+              </div>
+              <div class="mc-footer"><span class="mc-watermark">⭐ meritstar.in</span><span class="mc-date">May 2026</span></div>
+            </div>
+          </div>
+
+          <!-- Card 4: The Healer — Deep Navy -->
+          <div class="carousel-slide">
+            <div class="merit-card cv4">
+              <div class="mc-top">
+                <div class="mc-top-row">
+                  <div class="mc-logo"><span class="mc-logo-star">⭐</span><span class="mc-logo-text">MYMERITSTAR</span></div>
+                  <div class="mc-class-badge">NEET<br>2026</div>
+                </div>
+                <div class="mc-persona-row">
+                  <div class="mc-persona-icon">🩺</div>
+                  <div class="mc-persona-name">The Healer</div>
+                  <div class="mc-persona-sub">Strong in Biology &amp; Chemistry</div>
+                </div>
+              </div>
+              <div class="mc-body">
+                <div class="mc-score-row">
+                  <div class="mc-score-circle"><div class="mc-score-inner"><div class="mc-score-num">91.2%</div><div class="mc-score-lbl">Overall</div></div></div>
+                  <div class="mc-score-info">
+                    <div class="mc-grade-pill g-exceptional">🥇 Exceptional</div>
+                    <div class="mc-student-name">Ananya Rao</div>
+                    <div class="mc-student-meta">CBSE · NEET · Score 658</div>
+                  </div>
+                </div>
+                <div class="mc-subjects">
+                  <div class="mc-subj"><div class="mc-subj-icon">🧬</div><div class="mc-subj-name">Biology</div><div class="mc-subj-rating r-high">High</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">⚗️</div><div class="mc-subj-name">Chemistry</div><div class="mc-subj-rating r-high">High</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">⚡</div><div class="mc-subj-name">Physics</div><div class="mc-subj-rating r-good">Good</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">🏅</div><div class="mc-subj-name">Rank</div><div class="mc-subj-rating r-high">#3,241</div></div>
+                </div>
+              </div>
+              <div class="mc-footer"><span class="mc-watermark">⭐ meritstar.in</span><span class="mc-date">May 2026</span></div>
+            </div>
+          </div>
+
+          <!-- Card 5: The Storyteller — Coral -->
+          <div class="carousel-slide">
+            <div class="merit-card cv5">
+              <div class="mc-top">
+                <div class="mc-top-row">
+                  <div class="mc-logo"><span class="mc-logo-star">⭐</span><span class="mc-logo-text">MYMERITSTAR</span></div>
+                  <div class="mc-class-badge">Report for<br>Class 12</div>
+                </div>
+                <div class="mc-persona-row">
+                  <div class="mc-persona-icon">✍️</div>
+                  <div class="mc-persona-name">The Storyteller</div>
+                  <div class="mc-persona-sub">Strong in English &amp; Literature</div>
+                </div>
+              </div>
+              <div class="mc-body">
+                <div class="mc-score-row">
+                  <div class="mc-score-circle"><div class="mc-score-inner"><div class="mc-score-num">78.8%</div><div class="mc-score-lbl">Overall</div></div></div>
+                  <div class="mc-score-info">
+                    <div class="mc-grade-pill g-above-avg">✨ Above Average</div>
+                    <div class="mc-student-name">Riya Nair</div>
+                    <div class="mc-student-meta">CBSE · Class 12 Humanities</div>
+                  </div>
+                </div>
+                <div class="mc-subjects">
+                  <div class="mc-subj"><div class="mc-subj-icon">📖</div><div class="mc-subj-name">English</div><div class="mc-subj-rating r-high">High</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">📜</div><div class="mc-subj-name">History</div><div class="mc-subj-rating r-good">Good</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">⚖️</div><div class="mc-subj-name">Pol. Science</div><div class="mc-subj-rating r-good">Good</div></div>
+                  <div class="mc-subj"><div class="mc-subj-icon">📊</div><div class="mc-subj-name">Economics</div><div class="mc-subj-rating r-avg">Average</div></div>
+                </div>
+              </div>
+              <div class="mc-footer"><span class="mc-watermark">⭐ meritstar.in</span><span class="mc-date">May 2026</span></div>
+            </div>
+          </div>
+
+        </div><!-- end card-carousel -->
+
+        <!-- Dot indicators -->
+        <div class="carousel-dots" id="carousel-dots">
+          <button class="cdot active" onclick="goSlide(0)"></button>
+          <button class="cdot" onclick="goSlide(1)"></button>
+          <button class="cdot" onclick="goSlide(2)"></button>
+          <button class="cdot" onclick="goSlide(3)"></button>
+          <button class="cdot" onclick="goSlide(4)"></button>
         </div>
+      </div>
+    </section>
 
-        <div class="field-row">
-          <div class="field">
-            <label>Class</label>
-            <select id="school-class">
-              <option value="10">Class 10</option>
-              <option value="12">Class 12</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Board</label>
-            <select id="school-board">
-              <option value="CBSE">CBSE</option>
-              <option value="ICSE">ICSE</option>
-              <option value="State Board">State Board</option>
-            </select>
-          </div>
+    <!-- How it works -->
+    <section class="how-section">
+      <h2>How it works</h2>
+      <p class="sub">Three steps to a card your family will share everywhere</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Enter your marks</h3>
+          <p>Pick your board and class. We auto-load your subjects. Takes 30 seconds.</p>
         </div>
-
-        <div class="field-row">
-          <div class="field">
-            <label>Total Students</label>
-            <input type="number" id="total-students" placeholder="e.g. 120" min="1">
-          </div>
-          <div class="field">
-            <label>First Class (75%+)</label>
-            <input type="number" id="first-class" placeholder="e.g. 110" min="0">
-          </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Get your card</h3>
+          <p>Instant personalised card with your persona, score, and subject breakdown.</p>
         </div>
-
-        <div class="field">
-          <label>Top Score %</label>
-          <input type="number" id="top-score" placeholder="e.g. 99.2" min="0" max="100" step="0.1">
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Share &amp; celebrate</h3>
+          <p>Send on WhatsApp, Instagram, or download. Your achievement, your moment.</p>
         </div>
-
-        <div class="section-title" style="margin-top:16px;">Top 3 Toppers</div>
-        <div style="display:flex;flex-direction:column;gap:8px;" id="toppers-container">
-          <div class="field-row">
-            <input type="text" placeholder="Topper 1 name" id="t1-name">
-            <input type="number" placeholder="Score %" id="t1-score" max="100" step="0.1">
-          </div>
-          <div class="field-row">
-            <input type="text" placeholder="Topper 2 name" id="t2-name">
-            <input type="number" placeholder="Score %" id="t2-score" max="100" step="0.1">
-          </div>
-          <div class="field-row">
-            <input type="text" placeholder="Topper 3 name" id="t3-name">
-            <input type="number" placeholder="Score %" id="t3-score" max="100" step="0.1">
-          </div>
-        </div>
-
-        <button class="cta-btn" onclick="generateSchoolCard()" style="margin-top:20px;">
-          <span class="cta-icon">🏆</span>
-          Generate Institution Card
-        </button>
       </div>
+    </section>
 
-    </div>
-
-    <div class="social-proof">
-      Join <strong>thousands of proud parents</strong> sharing their child's moment ⭐
-    </div>
-  </div>
-
-  <!-- Result Section -->
-  <div id="result-section">
-
-    <!-- Merit Card -->
-    <div id="merit-card">
-      <div class="card-deco-star" style="width:120px;height:120px;top:-30px;right:-20px;"></div>
-      <div class="card-deco-star" style="width:60px;height:60px;bottom:40px;right:30px;opacity:0.05;"></div>
-
-      <div class="card-header">
-        <div class="card-logo">
-          <div class="card-logo-star"></div>
-          <div class="card-logo-text">Merit<span>Star</span></div>
-        </div>
-        <div class="card-year" id="card-year">2025–26</div>
+    <!-- Persona showcase -->
+    <section class="personas-section">
+      <h2>Which persona will you get?</h2>
+      <div class="persona-chips">
+        <div class="persona-chip">🏆 The Prodigy</div>
+        <div class="persona-chip">⚙️ The Engineer</div>
+        <div class="persona-chip">🩺 The Healer</div>
+        <div class="persona-chip">🔬 The Scientist</div>
+        <div class="persona-chip">📊 The Numbers King</div>
+        <div class="persona-chip">📈 The Economist</div>
+        <div class="persona-chip">💼 The Future CEO</div>
+        <div class="persona-chip">📜 The Thinker</div>
+        <div class="persona-chip">✍️ The Storyteller</div>
+        <div class="persona-chip">🌍 The Explorer</div>
+        <div class="persona-chip">🥇 The Gold Standard</div>
+        <div class="persona-chip">🔢 The Maths Wizard</div>
+        <div class="persona-chip">🔥 The Comeback Kid</div>
       </div>
-
-      <div class="card-name" id="card-name">Arjun Sharma</div>
-      <div class="card-meta" id="card-meta">Class 10 · CBSE · Bengaluru</div>
-
-      <div class="score-display">
-        <div class="score-number" id="card-score">94.8</div>
-        <div class="score-pct">%</div>
-        <div class="score-max" id="card-score-raw"></div>
+      <div style="text-align:center;margin-top:36px;">
+        <button class="btn-cta-bottom" onclick="goTo('form')">Find out yours →</button>
       </div>
+    </section>
+  </main>
 
-      <div class="insights-list" id="card-insights">
-        <!-- Populated by JS -->
-      </div>
-
-      <div class="card-footer">
-        <div class="card-url">meritstar.in</div>
-        <div class="card-badge">Verified ⭐</div>
-      </div>
-    </div>
-
-    <!-- Share -->
-    <div class="share-section">
-      <div class="share-title">🎉 Share your MeritStar moment</div>
-      <div class="share-buttons">
-        <button class="share-btn btn-whatsapp" onclick="shareWhatsApp()">
-          <span class="share-icon">💬</span> Share on WhatsApp
-        </button>
-        <button class="share-btn btn-download" onclick="downloadCard()">
-          <span class="share-icon">⬇️</span> Download & Share on Instagram
-        </button>
-        <button class="share-btn btn-twitter" onclick="shareTwitter()">
-          <span class="share-icon">𝕏</span> Share on X / Twitter
-        </button>
-      </div>
-    </div>
-
-    <!-- Email Capture -->
-    <div class="email-capture" id="email-section">
-      <h3>📈 Track growth next year too</h3>
-      <p>Save this result and get a reminder when next results come out. Watch the improvement.</p>
-      <div class="email-row">
-        <input type="email" id="user-email" placeholder="Your email or WhatsApp number">
-        <button class="email-submit" onclick="saveEmail()">Save</button>
-      </div>
-      <div class="success-msg" id="email-success">✅ Saved! We'll remind you next results season.</div>
-      <button class="skip-link" onclick="skipEmail()">Maybe later</button>
-    </div>
-
-    <!-- Make Another -->
-    <button class="make-another" onclick="resetForm()">
-      ✨ Make another MeritStar card
-    </button>
-
-  </div>
-
+  <footer class="site-footer-feedback">
+    ⭐ MyMeritStar · meritstar.in · Your data never leaves your browser<br>
+    Feedback &amp; suggestions: <a href="mailto:mymeritstar@gmail.com">mymeritstar@gmail.com</a>
+  </footer>
 </div>
 
-<script>
-// ── STARS BACKGROUND ──
-(function() {
-  const container = document.getElementById('stars');
-  for (let i = 0; i < 50; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    const size = Math.random() * 3 + 1;
-    star.style.cssText = `
-      width:${size}px; height:${size}px;
-      left:${Math.random()*100}%;
-      top:${Math.random()*100}%;
-      --dur:${Math.random()*4+2}s;
-      --op:${Math.random()*0.6+0.2};
-      animation-delay:${Math.random()*4}s;
-    `;
-    container.appendChild(star);
-  }
-})();
 
-// ── SUBJECTS CONFIG ──
-const subjectsMap = {
-  '10': [
-    {id:'eng', label:'English'},
-    {id:'math', label:'Maths'},
-    {id:'sci', label:'Science'},
-    {id:'sst', label:'Soc. Studies'},
-    {id:'lang2', label:'2nd Lang'},
-    {id:'opt', label:'Optional'}
-  ],
-  '12-science': [
-    {id:'eng', label:'English'},
-    {id:'phy', label:'Physics'},
-    {id:'chem', label:'Chemistry'},
-    {id:'math', label:'Maths'},
-    {id:'bio', label:'Biology/CS'},
-    {id:'opt', label:'Optional'}
-  ],
-  '12-commerce': [
-    {id:'eng', label:'English'},
-    {id:'acc', label:'Accounts'},
-    {id:'bst', label:'Business'},
-    {id:'eco', label:'Economics'},
-    {id:'math', label:'Maths/IP'},
-    {id:'opt', label:'Optional'}
-  ],
-  '12-humanities': [
-    {id:'eng', label:'English'},
-    {id:'hist', label:'History'},
-    {id:'pol', label:'Pol. Science'},
-    {id:'geo', label:'Geography'},
-    {id:'eco', label:'Economics'},
-    {id:'opt', label:'Optional'}
-  ],
-  'jee': [{id:'overall', label:'JEE Score'},{id:'rank', label:'AIR Rank'}],
-  'neet': [{id:'overall', label:'NEET Score'},{id:'rank', label:'NEET Rank'}],
-  'other': [{id:'s1',label:'Subject 1'},{id:'s2',label:'Subject 2'},{id:'s3',label:'Subject 3'},{id:'s4',label:'Subject 4'},{id:'s5',label:'Subject 5'}]
+<!-- ══════════════════════════════════════════
+     PAGE 2: FORM
+══════════════════════════════════════════ -->
+<div id="page-form" class="page">
+  <header class="form-page-header">
+    <button class="btn-back" onclick="goTo('home')">← Back</button>
+    <span class="form-step-label">Step 1 of 2</span>
+  </header>
+
+  <div class="form-wrap">
+    <h2>Enter your marks</h2>
+    <p class="form-subtitle">We'll generate your personalised card instantly.</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('student', this)">Student / Parent</button>
+      <button class="tab-btn" onclick="switchTab('school', this)">School / Institute</button>
+    </div>
+
+    <!-- Student tab -->
+    <div id="tab-student" class="form-tab active">
+      <div class="fg">
+        <label>Student Name <span class="opt">(optional)</span></label>
+        <input type="text" id="f-name" placeholder="e.g. Priya Sharma">
+      </div>
+      <div class="row-2">
+        <div class="fg">
+          <label>Board</label>
+          <select id="f-board" onchange="loadSubjects()">
+            <option value="">Select board</option>
+            <option value="CBSE">CBSE</option>
+            <option value="ICSE">ICSE</option>
+            <option value="State Board">State Board</option>
+            <option value="IB">IB</option>
+            <option value="IGCSE">IGCSE</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Class / Exam</label>
+          <select id="f-class" onchange="loadSubjects()">
+            <option value="">Select class</option>
+            <option value="10">Class 10</option>
+            <option value="12-sci">Class 12 — Science</option>
+            <option value="12-com">Class 12 — Commerce</option>
+            <option value="12-hum">Class 12 — Humanities</option>
+            <option value="jee">JEE</option>
+            <option value="neet">NEET</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <label>City <span class="opt">(optional)</span></label>
+        <input type="text" id="f-city" placeholder="e.g. Bangalore">
+      </div>
+
+      <div id="subj-section" style="display:none;">
+        <div class="fg">
+          <label>Marks per subject <span class="opt">(out of 100)</span></label>
+          <div class="subj-grid" id="subj-grid"></div>
+          <div id="extra-subj-list"></div>
+          <button type="button" class="btn-add-subj" onclick="addSubject()">+ Add Subject</button>
+        </div>
+      </div>
+
+      <div id="comp-section" style="display:none;">
+        <div class="fg">
+          <label id="comp-lbl">Score</label>
+          <input type="number" id="f-comp-score" placeholder="Enter your score" min="0">
+        </div>
+        <div class="fg">
+          <label>Rank <span class="opt">(optional)</span></label>
+          <input type="number" id="f-comp-rank" placeholder="e.g. 4200">
+        </div>
+      </div>
+
+      <div class="fg">
+        <label>Previous year total % <span class="opt">(optional — shows your growth)</span></label>
+        <input type="number" id="f-prev" placeholder="e.g. 72.4" min="0" max="100" step="0.1">
+      </div>
+    </div>
+
+    <!-- School tab -->
+    <div id="tab-school" class="form-tab">
+      <div class="fg">
+        <label>School / Institute Name</label>
+        <input type="text" id="f-school-name" placeholder="e.g. Delhi Public School, RK Puram">
+      </div>
+      <div class="fg">
+        <label>Board</label>
+        <select id="f-school-board">
+          <option value="">Select board</option>
+          <option value="CBSE">CBSE</option>
+          <option value="ICSE">ICSE</option>
+          <option value="State Board">State Board</option>
+          <option value="IB">IB</option>
+        </select>
+      </div>
+      <div class="row-2">
+        <div class="fg">
+          <label>Class 10 Average % <span class="opt">(opt)</span></label>
+          <input type="number" id="f-avg10" placeholder="e.g. 78.5" min="0" max="100" step="0.1">
+        </div>
+        <div class="fg">
+          <label>Class 12 Average % <span class="opt">(opt)</span></label>
+          <input type="number" id="f-avg12" placeholder="e.g. 81.2" min="0" max="100" step="0.1">
+        </div>
+      </div>
+      <div class="fg">
+        <label>Topper Name &amp; Score <span class="opt">(optional)</span></label>
+        <input type="text" id="f-topper" placeholder="e.g. Aarav Mehta — 98.4%">
+      </div>
+      <div class="fg">
+        <label>City <span class="opt">(optional)</span></label>
+        <input type="text" id="f-school-city" placeholder="e.g. Mumbai">
+      </div>
+    </div>
+
+    <button class="btn-generate" onclick="generate()">✨ Generate My MyMeritStar Card</button>
+  </div>
+  <footer class="site-footer-feedback">
+    Feedback &amp; suggestions: <a href="mailto:mymeritstar@gmail.com">mymeritstar@gmail.com</a>
+  </footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 3: RESULT
+══════════════════════════════════════════ -->
+<div id="page-result" class="page">
+  <header class="result-header">
+    <button class="btn-back" onclick="goTo('form')">← Edit</button>
+    <span class="logo-sm">⭐ MyMeritStar</span>
+    <button class="btn-back" onclick="goTo('home')" style="color:var(--gray-600)">New Card</button>
+  </header>
+
+  <div class="result-wrap">
+    <div class="result-title">
+      <h2>🎉 Your card is ready!</h2>
+      <p>Download or share your achievement</p>
+    </div>
+
+    <!-- THE GENERATED CARD -->
+    <div id="capture-card">
+      <div class="merit-card" id="gen-card">
+        <div class="mc-top">
+          <div class="mc-top-row">
+            <div class="mc-logo">
+              <span class="mc-logo-star">⭐</span>
+              <span class="mc-logo-text">MYMERITSTAR</span>
+            </div>
+            <div class="mc-class-badge" id="r-class-badge">Report for<br>Class 10</div>
+          </div>
+          <div class="mc-persona-row">
+            <div class="mc-persona-icon" id="r-persona-icon">⭐</div>
+            <div class="mc-persona-name" id="r-persona-name">Merit Star</div>
+            <div class="mc-persona-sub" id="r-persona-sub"></div>
+          </div>
+        </div>
+        <div class="mc-body">
+          <div class="mc-score-row">
+            <div class="mc-score-circle">
+              <div class="mc-score-inner">
+                <div class="mc-score-num" id="r-score">—</div>
+                <div class="mc-score-lbl">Overall</div>
+              </div>
+            </div>
+            <div class="mc-score-info">
+              <div class="mc-grade-pill" id="r-grade-pill">—</div>
+              <div class="mc-student-name" id="r-name">—</div>
+              <div class="mc-student-meta" id="r-meta">—</div>
+            </div>
+          </div>
+
+          <div class="mc-subjects" id="r-subjects"></div>
+
+          <div id="r-progress-row" style="display:none;">
+            <div class="mc-progress-row">
+              <div class="mc-progress-icon">🚀</div>
+              <div class="mc-progress-text" id="r-progress-text"></div>
+            </div>
+          </div>
+        </div>
+        <div class="mc-footer">
+          <span class="mc-watermark">⭐ meritstar.in</span>
+          <span class="mc-date" id="r-date"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHARE ACTIONS -->
+    <div class="share-section">
+      <h3>Share your achievement</h3>
+      <div class="share-grid">
+        <button class="btn-share bs-whatsapp" onclick="shareWhatsApp()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </button>
+        <button class="btn-share bs-instagram" onclick="shareInstagram()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          Instagram
+        </button>
+        <button class="btn-share bs-email" onclick="shareEmail()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Send Email
+        </button>
+        <button class="btn-share bs-png" onclick="downloadPNG()">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          Download PNG
+        </button>
+        <button class="btn-share bs-pdf share-full" onclick="downloadPDF()">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+          Download PDF
+        </button>
+      </div>
+    </div>
+
+    <div class="safe-msg">
+      <strong>🌱 Every score tells a story</strong>
+      MyMeritStar celebrates your unique strengths. Every learner's journey is different — this card reflects your effort and growth, not a final verdict on who you are.
+    </div>
+  </div>
+  <footer class="site-footer-feedback">
+    Feedback &amp; suggestions: <a href="mailto:mymeritstar@gmail.com">mymeritstar@gmail.com</a>
+  </footer>
+</div>
+
+
+<script>
+// ─── Site URL — update to ngrok URL for mobile testing, 'https://meritstar.in' when hosted ───
+const SITE_URL = 'https://meritstar.in';
+
+// ─── Hero card carousel ───
+let _slideIdx = 0;
+let _slideTimer = null;
+
+function goSlide(n) {
+  const slides = document.querySelectorAll('.carousel-slide');
+  const dots   = document.querySelectorAll('.cdot');
+  slides[_slideIdx].classList.remove('active');
+  dots[_slideIdx].classList.remove('active');
+  _slideIdx = (n + slides.length) % slides.length;
+  slides[_slideIdx].classList.add('active');
+  dots[_slideIdx].classList.add('active');
+}
+
+function startCarousel() {
+  _slideTimer = setInterval(() => goSlide(_slideIdx + 1), 3200);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  startCarousel();
+
+  // Pause carousel on hover
+  const carousel = document.getElementById('card-carousel');
+  if (carousel) {
+    carousel.addEventListener('mouseenter', () => clearInterval(_slideTimer));
+    carousel.addEventListener('mouseleave', startCarousel);
+  }
+
+  // Auto-advance for dropdowns immediately on selection
+  document.getElementById('page-form').addEventListener('change', e => {
+    const el = e.target;
+    if (el.tagName === 'SELECT' && el.value) advanceToNextField(el);
+  });
+
+  // Auto-advance for number fields after 2 digits
+  // Excludes rank and competitive score fields (large numbers, user fills freely)
+  const NO_AUTO_ADVANCE = ['f-comp-rank', 'f-comp-score'];
+  let _numTimer = null;
+  document.getElementById('page-form').addEventListener('input', e => {
+    const el = e.target;
+    if (el.tagName !== 'INPUT' || el.type !== 'number') return;
+    if (NO_AUTO_ADVANCE.includes(el.id)) return;
+
+    const val = el.value.trim();
+    clearTimeout(_numTimer);
+
+    if (val === '100') {
+      advanceToNextField(el);
+    } else if (val.length >= 2) {
+      _numTimer = setTimeout(() => advanceToNextField(el), 100);
+    }
+  });
+});
+
+function advanceToNextField(current) {
+  // Collect all visible, enabled form fields in DOM order
+  const allFields = Array.from(
+    document.getElementById('page-form').querySelectorAll(
+      'input[type="text"]:not([disabled]), input[type="number"]:not([disabled]), input[type="email"]:not([disabled]), select:not([disabled])'
+    )
+  ).filter(el => {
+    // Only fields inside visible sections
+    const sec = el.closest('[style*="display:none"]') || el.closest('[style*="display: none"]');
+    return !sec;
+  });
+
+  const idx = allFields.indexOf(current);
+  if (idx === -1) return;
+
+  // Find the next field that is empty
+  for (let i = idx + 1; i < allFields.length; i++) {
+    const next = allFields[i];
+    if (next.tagName === 'SELECT' ? !next.value : !next.value.trim()) {
+      next.focus();
+      if (next.tagName === 'INPUT') next.select && next.select();
+      return;
+    }
+  }
+}
+
+// ─── Subject map ───
+const SUBJ_MAP = {
+  '10':     ['English','Maths','Science','Social Studies','Hindi / 2nd Lang'],
+  '12-sci': ['Physics','Chemistry','Maths','Biology / CS','English'],
+  '12-com': ['Accounts','Business Studies','Economics','Maths / IP','English'],
+  '12-hum': ['History','Political Science','Geography','Economics','English'],
 };
 
-function updateSubjects() {
-  const cls = document.getElementById('student-class').value;
-  const container = document.getElementById('marks-container');
-  if (!cls) { container.innerHTML = ''; return; }
-  const subjects = subjectsMap[cls] || [];
-  container.innerHTML = subjects.map(s => `
-    <div class="mark-field">
-      <input type="number" id="mark-${s.id}" min="0" max="100" placeholder="—">
-      <span class="mark-label">/100</span>
-      <div class="subject-name">${s.label}</div>
-    </div>
-  `).join('');
+const SUBJ_ICONS = {
+  'English':'📖','Maths':'📐','Science':'🔬','Social Studies':'🌍',
+  'Hindi / 2nd Lang':'🗣️','Physics':'⚡','Chemistry':'⚗️',
+  'Biology / CS':'🧬','Accounts':'🧾','Business Studies':'💼',
+  'Economics':'📊','Maths / IP':'💻','History':'📜',
+  'Political Science':'⚖️','Geography':'🗺️',
+};
+
+// ─── Grade tiers ───
+const TIERS = [
+  { min:90, label:'Exceptional',   cls:'g-exceptional', emoji:'🥇' },
+  { min:80, label:'Outstanding',   cls:'g-outstanding', emoji:'🌟' },
+  { min:65, label:'Above Average', cls:'g-above-avg',   emoji:'✨' },
+  { min:50, label:'Good',          cls:'g-good',        emoji:'👍' },
+  { min:35, label:'Progressing',   cls:'g-progressing', emoji:'📈' },
+  { min: 0, label:'Keep Going',    cls:'g-keep-going',  emoji:'💪' },
+];
+function getGrade(p) { return TIERS.find(t => p >= t.min) || TIERS[TIERS.length-1]; }
+
+function subjectRating(p) {
+  if (p >= 90) return { label:'High',    cls:'r-high' };
+  if (p >= 75) return { label:'Good',    cls:'r-good' };
+  if (p >= 60) return { label:'Average', cls:'r-avg'  };
+  return            { label:'Focus',   cls:'r-focus' };
 }
 
-// Initialize with Class 10
-document.getElementById('student-class').value = '10';
-updateSubjects();
-
-// ── TABS ──
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (tab==='student'&&i===0)||(tab==='school'&&i===1)));
-  document.getElementById('student-panel').style.display = tab === 'student' ? 'block' : 'none';
-  document.getElementById('school-panel').style.display = tab === 'school' ? 'block' : 'none';
+// ─── Page navigation ───
+function goTo(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ── INSIGHT ENGINE ──
-function getInsights(percent, cls, board, city, prevPercent) {
-  const insights = [];
+// ─── Tab switch ───
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
 
-  // Percentile insight
-  if (percent >= 99) {
-    insights.push({icon:'🏆', text:'<strong>Top 0.5%</strong> of students nationally — an extraordinary achievement'});
-  } else if (percent >= 95) {
-    insights.push({icon:'🥇', text:'<strong>Top 3%</strong> of all students in your board this year'});
-  } else if (percent >= 90) {
-    insights.push({icon:'🥈', text:'<strong>Top 10%</strong> of students nationally — well above average'});
-  } else if (percent >= 80) {
-    insights.push({icon:'⭐', text:'<strong>Top 22%</strong> of students — a strong, proud performance'});
-  } else if (percent >= 70) {
-    insights.push({icon:'✅', text:'<strong>Above the national average</strong> — a result to be proud of'});
+// ─── Subject loader ───
+function loadSubjects() {
+  const lvl = document.getElementById('f-class').value;
+  const ss = document.getElementById('subj-section');
+  const cs = document.getElementById('comp-section');
+
+  if (lvl === 'jee' || lvl === 'neet') {
+    ss.style.display = 'none'; cs.style.display = 'block';
+    document.getElementById('comp-lbl').textContent = lvl === 'jee' ? 'JEE Score (out of 300)' : 'NEET Score (out of 720)';
+  } else if (SUBJ_MAP[lvl]) {
+    cs.style.display = 'none'; ss.style.display = 'block';
+    document.getElementById('extra-subj-list').innerHTML = '';
+    document.getElementById('subj-grid').innerHTML = SUBJ_MAP[lvl].map(s =>
+      `<div class="subj-item">
+        <label>${SUBJ_ICONS[s] || '📝'} ${s}</label>
+        <input type="number" class="si" data-name="${s}" placeholder="e.g. 85" min="0" max="100" step="0.5">
+      </div>`
+    ).join('');
   } else {
-    insights.push({icon:'📈', text:'<strong>Every mark counts</strong> — this is a foundation to build on'});
+    ss.style.display = 'none'; cs.style.display = 'none';
   }
-
-  // Students beaten estimate
-  const boardStudents = {
-    'CBSE': 2200000,
-    'ICSE': 250000,
-    'State Board': 1500000,
-    'IB': 20000,
-    'IGCSE': 30000
-  };
-  const total = boardStudents[board] || 1000000;
-  const beaten = Math.round((percent / 100) * total);
-  if (beaten > 10000) {
-    insights.push({icon:'🎯', text:`Scored higher than <strong>${beaten.toLocaleString('en-IN')} students</strong> in your board`});
-  }
-
-  // Growth insight
-  if (prevPercent && prevPercent > 0) {
-    const growth = (percent - prevPercent).toFixed(1);
-    if (growth > 0) {
-      insights.push({icon:'📊', text:`Improved by <strong>${growth}%</strong> from last year — remarkable growth`});
-    } else if (growth < 0) {
-      insights.push({icon:'💪', text:`<strong>Keep going</strong> — every result is a learning opportunity`});
-    } else {
-      insights.push({icon:'🔒', text:`<strong>Consistent performance</strong> — rock solid and reliable`});
-    }
-  }
-
-  // Subject excellence
-  insights.push({icon:'🌟', text:`<strong>meritstar.in</strong> — India's Achievement Platform`});
-
-  return insights.slice(0, 3);
 }
 
-// ── GENERATE CARD ──
-function generateCard() {
-  const cls = document.getElementById('student-class').value;
-  const board = document.getElementById('student-board').value;
+let _extraCount = 0;
 
-  if (!cls || !board) {
-    alert('Please select your class and board first.');
-    return;
+function addSubject() {
+  const list = document.getElementById('extra-subj-list');
+  const i = _extraCount++;
+  const row = document.createElement('div');
+  row.className = 'extra-subj-row';
+  row.id = `esr-${i}`;
+  row.innerHTML = `
+    <div class="subj-item"><label style="font-size:11px;">Subject Name</label>
+    <input type="text" id="esn-${i}" placeholder="e.g. Computer Science" oninput="syncExtraName(${i})"></div>
+    <div class="subj-item"><label style="font-size:11px;">Marks (out of 100)</label>
+    <input type="number" class="si" id="ess-${i}" data-name="Subject ${i+1}" placeholder="e.g. 85" min="0" max="100" step="0.5"></div>
+    <button type="button" class="btn-remove-subj" onclick="removeExtraSubj(${i})" title="Remove">✕</button>
+  `;
+  list.appendChild(row);
+  document.getElementById(`esn-${i}`).focus();
+}
+
+function syncExtraName(i) {
+  const nameEl = document.getElementById(`esn-${i}`);
+  const scoreEl = document.getElementById(`ess-${i}`);
+  if (nameEl && scoreEl) scoreEl.dataset.name = nameEl.value.trim() || `Subject ${i+1}`;
+}
+
+function removeExtraSubj(i) {
+  const row = document.getElementById(`esr-${i}`);
+  if (row) row.remove();
+}
+
+// ─── Persona engine ───
+function getPersona(level, subjects, growth) {
+  if (!subjects || subjects.length === 0) return { icon:'⭐', name:'Merit Star', sub:'' };
+  const avg = subjects.reduce((s,x) => s + x.score, 0) / subjects.length;
+  const allAbove90 = subjects.every(s => s.score >= 90);
+
+  if (growth !== null && growth > 15) return { icon:'🔥', name:'The Comeback Kid', sub:'Remarkable improvement this year' };
+  if (allAbove90) return { icon:'🏆', name:'The Prodigy', sub:'Exceptional across all subjects' };
+
+  if (level === '12-sci') {
+    const phys = subjects.find(s => s.name.includes('Physics'));
+    const math = subjects.find(s => s.name.includes('Maths'));
+    const bio  = subjects.find(s => s.name.includes('Biology'));
+    const chem = subjects.find(s => s.name.includes('Chem'));
+    if (phys?.score >= 90 && math?.score >= 90) return { icon:'⚙️', name:'The Engineer',  sub:'Strong in Physics & Maths' };
+    if (bio?.score  >= 90 && chem?.score >= 90) return { icon:'🩺', name:'The Healer',    sub:'Strong in Biology & Chemistry' };
+    if (subjects.filter(s => s.score >= 90).length >= 3) return { icon:'🔬', name:'The Scientist', sub:'High performance in Science' };
+    return { icon:'🔭', name:'The Explorer', sub:'Science stream achiever' };
   }
-
-  // Collect marks
-  const subjects = subjectsMap[cls] || [];
-  let total = 0, count = 0, marks = [];
-
-  if (cls === 'jee') {
-    const score = parseFloat(document.getElementById('mark-overall')?.value) || 0;
-    // Special JEE card
-    generateJEECard(score);
-    return;
+  if (level === '12-com') {
+    const acc = subjects.find(s => s.name.includes('Account'));
+    const eco = subjects.find(s => s.name.includes('Econ'));
+    const bst = subjects.find(s => s.name.includes('Business'));
+    const top = [...subjects].sort((a,b) => b.score-a.score)[0];
+    if (acc?.score >= top.score) return { icon:'📊', name:'The Numbers King',  sub:'Strong in Accounts' };
+    if (eco?.score >= top.score) return { icon:'📈', name:'The Economist',     sub:'Strong in Economics' };
+    if (bst?.score >= top.score) return { icon:'💼', name:'The Future CEO',    sub:'Strong in Business Studies' };
+    return { icon:'⭐', name:'The Commerce Star', sub:'Well-rounded Commerce achiever' };
   }
+  if (level === '12-hum') {
+    const hist = subjects.find(s => s.name.includes('History'));
+    const geo  = subjects.find(s => s.name.includes('Geography'));
+    const eng  = subjects.find(s => s.name.includes('English'));
+    const top  = [...subjects].sort((a,b) => b.score-a.score)[0];
+    if (hist?.score >= top.score) return { icon:'📜', name:'The Thinker',      sub:'Strong in History' };
+    if (geo?.score  >= top.score) return { icon:'🌍', name:'The Explorer',     sub:'Strong in Geography' };
+    if (eng?.score  >= top.score) return { icon:'✍️', name:'The Storyteller',  sub:'Strong in English' };
+    return { icon:'🎭', name:'The Humanities Star', sub:'Humanities achiever' };
+  }
+  if (level === '10') {
+    const math = subjects.find(s => s.name === 'Maths');
+    const sci  = subjects.find(s => s.name === 'Science');
+    if (avg >= 90)         return { icon:'🥇', name:'The Gold Standard', sub:'Outstanding across all subjects' };
+    if (math?.score >= 90) return { icon:'🔢', name:'The Maths Wizard',  sub:'Exceptional in Maths' };
+    if (sci?.score  >= 90) return { icon:'🔬', name:'The Science Star',  sub:'Exceptional in Science' };
+    return { icon:'⭐', name:'Merit Scholar', sub:'Class 10 achiever' };
+  }
+  return { icon:'⭐', name:'Merit Star', sub:'Achievement unlocked' };
+}
 
-  subjects.forEach(s => {
-    const val = parseFloat(document.getElementById(`mark-${s.id}`)?.value);
-    if (!isNaN(val) && val >= 0) {
+// ─── GENERATE ───
+function generate() {
+  const activeTab = document.querySelector('.form-tab.active').id;
+
+  if (activeTab === 'tab-school') { generateSchool(); return; }
+
+  const level = document.getElementById('f-class').value;
+  const board = document.getElementById('f-board').value;
+  if (!board || !level) { alert('Please select a board and class.'); return; }
+
+  let overallPct, subjects = null, compScore = null;
+
+  if (level === 'jee' || level === 'neet') {
+    compScore = parseFloat(document.getElementById('f-comp-score').value);
+    if (isNaN(compScore) || compScore < 0) { alert('Please enter a valid score.'); return; }
+    overallPct = (compScore / (level === 'jee' ? 300 : 720)) * 100;
+  } else {
+    const inputs = document.querySelectorAll('.si');
+    if (inputs.length === 0) { alert('Please select a class to load subjects.'); return; }
+    subjects = [];
+    let total = 0;
+    for (const inp of inputs) {
+      if (inp.value.trim() === '') continue;
+      const val = parseFloat(inp.value);
+      if (isNaN(val) || val < 0 || val > 100) { alert(`Invalid mark for ${inp.dataset.name}.`); return; }
+      subjects.push({ name: inp.dataset.name, score: val });
       total += val;
-      count++;
-      marks.push({subject: s.label, score: val});
     }
-  });
+    if (subjects.length === 0) { alert('Please enter at least one subject mark.'); return; }
+    overallPct = total / subjects.length;
+  }
 
-  if (count === 0) {
-    alert('Please enter at least one subject mark.');
+  const prevRaw = parseFloat(document.getElementById('f-prev').value);
+  const prevPct = isNaN(prevRaw) ? null : prevRaw;
+  const growth  = prevPct !== null ? overallPct - prevPct : null;
+
+  const name  = document.getElementById('f-name').value.trim() || 'Star Achiever';
+  const city  = document.getElementById('f-city').value.trim();
+  const grade = getGrade(overallPct);
+  const persona = getPersona(level, subjects, growth);
+
+  const levelLabels = {
+    '10':'Class 10','12-sci':'Class 12 · Science',
+    '12-com':'Class 12 · Commerce','12-hum':'Class 12 · Humanities',
+    'jee':'JEE','neet':'NEET',
+  };
+
+  document.getElementById('r-class-badge').innerHTML = `Report for<br>${levelLabels[level]}`;
+  document.getElementById('r-persona-icon').textContent = persona.icon;
+  document.getElementById('r-persona-name').textContent = persona.name;
+  document.getElementById('r-persona-sub').textContent  = persona.sub;
+  document.getElementById('r-score').textContent = overallPct.toFixed(1) + '%';
+
+  const pill = document.getElementById('r-grade-pill');
+  pill.textContent = grade.emoji + ' ' + grade.label;
+  pill.className = 'mc-grade-pill ' + grade.cls;
+
+  document.getElementById('r-name').textContent = name;
+  document.getElementById('r-meta').textContent = [board, levelLabels[level], city].filter(Boolean).join(' · ');
+  document.getElementById('r-date').textContent = new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+
+  // Subject boxes (max 4)
+  const subjBox = document.getElementById('r-subjects');
+  if (subjects && subjects.length > 0) {
+    const show = subjects.slice(0, 4);
+    subjBox.innerHTML = show.map(s => {
+      const r = subjectRating(s.score);
+      return `<div class="mc-subj">
+        <div class="mc-subj-icon">${SUBJ_ICONS[s.name] || '📝'}</div>
+        <div class="mc-subj-name">${s.name.split('/')[0].trim()}</div>
+        <div class="mc-subj-rating ${r.cls}">${r.label}</div>
+      </div>`;
+    }).join('');
+  } else if (compScore !== null) {
+    const rank = document.getElementById('f-comp-rank').value;
+    subjBox.innerHTML = `
+      <div class="mc-subj"><div class="mc-subj-icon">📝</div><div class="mc-subj-name">${level.toUpperCase()} Score</div><div class="mc-subj-rating r-high">${compScore}</div></div>
+      ${rank ? `<div class="mc-subj"><div class="mc-subj-icon">🏅</div><div class="mc-subj-name">Rank</div><div class="mc-subj-rating r-good">#${rank}</div></div>` : ''}
+    `;
+  } else {
+    subjBox.innerHTML = '';
+  }
+
+  // Progress banner
+  const pr = document.getElementById('r-progress-row');
+  if (growth !== null && growth > 0) {
+    pr.style.display = 'block';
+    document.getElementById('r-progress-text').textContent = `+${growth.toFixed(1)}% improvement vs last year — up from ${prevPct.toFixed(1)}%`;
+  } else {
+    pr.style.display = 'none';
+  }
+
+  window._shareData = { name, board, level: levelLabels[level], city, pct: overallPct.toFixed(1), grade: grade.label, persona: persona.name, growth };
+
+  goTo('result');
+  confetti();
+}
+
+function generateSchool() {
+  const schoolName = document.getElementById('f-school-name').value.trim() || 'Merit School';
+  const board      = document.getElementById('f-school-board').value || 'CBSE';
+  const city       = document.getElementById('f-school-city').value.trim();
+  const avg10      = parseFloat(document.getElementById('f-avg10').value) || null;
+  const avg12      = parseFloat(document.getElementById('f-avg12').value) || null;
+  const topper     = document.getElementById('f-topper').value.trim();
+  const avgVal     = avg10 || avg12 || 75;
+  const grade      = getGrade(avgVal);
+
+  document.getElementById('r-class-badge').innerHTML = `School<br>Report`;
+  document.getElementById('r-persona-icon').textContent = '🏫';
+  document.getElementById('r-persona-name').textContent = 'School of Excellence';
+  document.getElementById('r-persona-sub').textContent  = board + (city ? ' · ' + city : '');
+  document.getElementById('r-score').textContent = avgVal.toFixed(1) + '%';
+
+  const pill = document.getElementById('r-grade-pill');
+  pill.textContent = grade.emoji + ' ' + grade.label;
+  pill.className = 'mc-grade-pill ' + grade.cls;
+
+  document.getElementById('r-name').textContent = schoolName;
+  document.getElementById('r-meta').textContent = [board, city].filter(Boolean).join(' · ');
+  document.getElementById('r-date').textContent = new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+
+  const subjBox = document.getElementById('r-subjects');
+  const boxes = [];
+  if (avg10) boxes.push(`<div class="mc-subj"><div class="mc-subj-icon">📘</div><div class="mc-subj-name">Class 10 Avg</div><div class="mc-subj-rating ${subjectRating(avg10).cls}">${avg10}%</div></div>`);
+  if (avg12) boxes.push(`<div class="mc-subj"><div class="mc-subj-icon">📗</div><div class="mc-subj-name">Class 12 Avg</div><div class="mc-subj-rating ${subjectRating(avg12).cls}">${avg12}%</div></div>`);
+  if (topper) boxes.push(`<div class="mc-subj"><div class="mc-subj-icon">🥇</div><div class="mc-subj-name">Topper</div><div class="mc-subj-rating r-high">Star</div></div>`);
+  subjBox.innerHTML = boxes.join('');
+  document.getElementById('r-progress-row').style.display = 'none';
+
+  window._shareData = { name: schoolName, pct: avgVal.toFixed(1), grade: grade.label };
+  goTo('result');
+  confetti();
+}
+
+// ─── Confetti ───
+function confetti() {
+  const c = document.getElementById('confetti-wrap');
+  c.innerHTML = '';
+  const colors = ['#6C2FD9','#F5A623','#FCD34D','#10B981','#3B82F6','#EF4444','#EC4899'];
+  for (let i = 0; i < 100; i++) {
+    const p = document.createElement('div');
+    p.className = 'cp';
+    const size = 6 + Math.random() * 8;
+    p.style.cssText = `left:${Math.random()*100}vw;width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${2+Math.random()*2.5}s;animation-delay:${Math.random()*0.8}s`;
+    c.appendChild(p);
+  }
+  setTimeout(() => c.innerHTML = '', 5000);
+}
+
+// ─── SHARE ───
+async function shareWhatsApp() {
+  const d = window._shareData; if (!d) return;
+  const btn = document.querySelector('.bs-whatsapp');
+  const orig = btn.innerHTML;
+
+  const lines = [];
+  lines.push('MyMeritStar Achievement');
+  lines.push('');
+  lines.push(`${d.name} scored ${d.pct}% - ${d.grade}!`);
+  if (d.persona) lines.push(d.persona);
+  if (d.growth && parseFloat(d.growth) > 0)
+    lines.push(`Up ${parseFloat(d.growth).toFixed(1)}% vs last year!`);
+  lines.push('');
+  lines.push('Generate your own card at:');
+  lines.push(SITE_URL);
+  const msg = lines.join('\n');
+
+  if (typeof html2canvas === 'undefined') {
+    window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
     return;
   }
 
-  const percent = parseFloat((total / count).toFixed(1));
-  const name = document.getElementById('student-name').value.trim() || 'Our Star Student';
-  const city = document.getElementById('student-city').value.trim();
-  const prevPercent = parseFloat(document.getElementById('prev-percent').value);
+  btn.innerHTML = '⏳ Preparing...';
+  btn.disabled = true;
 
-  showLoading(true);
+  try {
+    const card = document.getElementById('gen-card');
+    const canvas = await html2canvas(card, { scale: 3, useCORS: true, backgroundColor: '#ffffff', logging: false });
+    canvas.toBlob(async blob => {
+      const filename = `mymeritstar-${(d.name || 'card').replace(/\s+/g,'-').toLowerCase()}.png`;
+      const file = new File([blob], filename, { type: 'image/png' });
 
-  setTimeout(() => {
-    showLoading(false);
-    renderStudentCard(name, cls, board, city, percent, total, count, prevPercent, marks);
-    showResult();
-    triggerConfetti();
-  }, 1800);
-}
-
-function renderStudentCard(name, cls, board, city, percent, total, count, prevPercent, marks) {
-  const clsLabel = {
-    '10':'Class 10','12-science':'Class 12 Science','12-commerce':'Class 12 Commerce',
-    '12-humanities':'Class 12 Humanities','other':'Board Exam'
-  }[cls] || cls;
-
-  document.getElementById('card-name').textContent = name;
-  const metaParts = [clsLabel, board, city].filter(Boolean);
-  document.getElementById('card-meta').textContent = metaParts.join(' · ');
-  document.getElementById('card-score').textContent = percent;
-  document.getElementById('card-score-raw').textContent = `${total}/${count*100}`;
-  document.getElementById('card-year').textContent = '2025–26';
-
-  const insights = getInsights(percent, cls, board, city, prevPercent);
-  document.getElementById('card-insights').innerHTML = insights.map(i =>
-    `<div class="insight-item">
-      <span class="insight-icon">${i.icon}</span>
-      <span class="insight-text">${i.text}</span>
-    </div>`
-  ).join('');
-
-  // Build share text
-  window.shareText = `🌟 ${name} scores ${percent}% in ${clsLabel} (${board})!\n\nGet your own MeritStar achievement card free at meritstar.in ⭐`;
-}
-
-function generateSchoolCard() {
-  const schoolName = document.getElementById('school-name').value.trim();
-  const board = document.getElementById('school-board').value;
-  const total = parseInt(document.getElementById('total-students').value) || 0;
-  const firstClass = parseInt(document.getElementById('first-class').value) || 0;
-  const topScore = parseFloat(document.getElementById('top-score').value) || 0;
-  const t1n = document.getElementById('t1-name').value.trim();
-  const t1s = document.getElementById('t1-score').value;
-  const t2n = document.getElementById('t2-name').value.trim();
-  const t2s = document.getElementById('t2-score').value;
-  const t3n = document.getElementById('t3-name').value.trim();
-  const t3s = document.getElementById('t3-score').value;
-
-  if (!schoolName) { alert('Please enter the institution name.'); return; }
-
-  showLoading(true);
-
-  setTimeout(() => {
-    showLoading(false);
-
-    const passRate = total > 0 ? ((firstClass/total)*100).toFixed(0) : 0;
-    document.getElementById('card-name').textContent = schoolName;
-    document.getElementById('card-meta').textContent = `${board} · Board Examination 2025–26`;
-    document.getElementById('card-score').textContent = topScore || passRate;
-    document.getElementById('card-score-raw').textContent = topScore ? 'Top score %' : '% First Class';
-    document.getElementById('card-year').textContent = '2025–26';
-
-    const toppers = [[t1n,t1s],[t2n,t2s],[t3n,t3s]].filter(t => t[0]);
-    let insightsHTML = '';
-
-    if (toppers.length) {
-      insightsHTML += `<div class="insight-item"><span class="insight-icon">🏆</span><span class="insight-text"><strong>Our Toppers:</strong> ${toppers.map(t => `${t[0]} (${t[1]}%)`).join(', ')}</span></div>`;
-    }
-    if (passRate > 0) {
-      insightsHTML += `<div class="insight-item"><span class="insight-icon">🎓</span><span class="insight-text"><strong>${passRate}% First Class</strong> — ${firstClass} of ${total} students excelled</span></div>`;
-    }
-    insightsHTML += `<div class="insight-item"><span class="insight-icon">⭐</span><span class="insight-text"><strong>meritstar.in</strong> — India's Achievement Platform</span></div>`;
-    document.getElementById('card-insights').innerHTML = insightsHTML;
-
-    window.shareText = `🏆 ${schoolName} shines in ${board} 2025–26!\nTop score: ${topScore}% | ${passRate}% First Class\n\nCreate your institution card at meritstar.in ⭐`;
-
-    showResult();
-    triggerConfetti();
-  }, 1800);
-}
-
-function generateJEECard(score) {
-  showLoading(true);
-  setTimeout(() => {
-    showLoading(false);
-    const name = document.getElementById('student-name').value.trim() || 'Our Star Student';
-    document.getElementById('card-name').textContent = name;
-    document.getElementById('card-meta').textContent = 'JEE Mains · 2025–26';
-    document.getElementById('card-score').textContent = score;
-    document.getElementById('card-score-raw').textContent = '/300';
-    let insight = score >= 250 ? '🏆 Top 0.1% of JEE aspirants — exceptional' :
-                  score >= 200 ? '🥇 Top 5% of JEE Mains candidates' :
-                  score >= 150 ? '⭐ Above JEE national average' : '💪 Strong foundation — keep going';
-    document.getElementById('card-insights').innerHTML = `
-      <div class="insight-item"><span class="insight-icon">🎯</span><span class="insight-text">${insight}</span></div>
-      <div class="insight-item"><span class="insight-icon">🌟</span><span class="insight-text"><strong>meritstar.in</strong> — India's Achievement Platform</span></div>`;
-    window.shareText = `🎯 ${name} scores ${score}/300 in JEE Mains!\n\nGet your achievement card free at meritstar.in ⭐`;
-    showResult();
-    triggerConfetti();
-  }, 1800);
-}
-
-// ── UI HELPERS ──
-function showLoading(show) {
-  document.getElementById('loading').classList.toggle('show', show);
-}
-
-function showResult() {
-  document.getElementById('form-section').style.display = 'none';
-  const result = document.getElementById('result-section');
-  result.style.display = 'block';
-  result.classList.add('pop-in');
-  result.scrollIntoView({behavior:'smooth', block:'start'});
-}
-
-function resetForm() {
-  document.getElementById('result-section').style.display = 'none';
-  document.getElementById('form-section').style.display = 'block';
-  document.getElementById('email-section').style.display = 'block';
-  document.getElementById('email-success').style.display = 'none';
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-
-// ── CONFETTI ──
-function triggerConfetti() {
-  const colors = ['#FFD600','#5C00B8','#FFFFFF','#8B3FD9','#FFC300'];
-  for (let i = 0; i < 60; i++) {
-    setTimeout(() => {
-      const piece = document.createElement('div');
-      piece.className = 'confetti-piece';
-      piece.style.cssText = `
-        left:${Math.random()*100}vw;
-        top:0;
-        background:${colors[Math.floor(Math.random()*colors.length)]};
-        animation-duration:${Math.random()*2+2}s;
-        animation-delay:${Math.random()*0.5}s;
-        transform:rotate(${Math.random()*360}deg);
-        border-radius:${Math.random()>0.5?'50%':'2px'};
-      `;
-      document.body.appendChild(piece);
-      setTimeout(() => piece.remove(), 3500);
-    }, i * 30);
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file], title: 'MyMeritStar Achievement', text: msg });
+          btn.innerHTML = '✅ Shared!';
+        } catch (err) {
+          btn.innerHTML = orig;
+        }
+        btn.disabled = false;
+      } else {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename; a.click();
+        URL.revokeObjectURL(url);
+        setTimeout(() => {
+          window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+          btn.innerHTML = '✅ Image saved - attach on WhatsApp';
+          setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 4000);
+        }, 500);
+      }
+    }, 'image/png');
+  } catch (e) {
+    window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+    btn.innerHTML = orig;
+    btn.disabled = false;
   }
 }
 
-// ── SHARE FUNCTIONS ──
-function shareWhatsApp() {
-  const text = encodeURIComponent(window.shareText || 'Check out my MeritStar! meritstar.in');
-  window.open(`https://wa.me/?text=${text}`, '_blank');
+function shareInstagram() {
+  const card = document.getElementById('gen-card');
+  const btn  = document.querySelector('.bs-instagram');
+  const orig = btn.innerHTML;
+
+  if (typeof html2canvas === 'undefined') {
+    // Library not loaded yet — fall back immediately
+    _instagramFallback(btn, orig);
+    return;
+  }
+
+  btn.innerHTML = '⏳ Preparing...';
+  btn.disabled  = true;
+
+  html2canvas(card, { scale: 3, useCORS: true, backgroundColor: '#ffffff', logging: false })
+    .then(canvas => {
+      canvas.toBlob(async blob => {
+        const filename = `mymeritstar-${(window._shareData?.name || 'card').replace(/\s+/g,'-').toLowerCase()}.png`;
+        const file = new File([blob], filename, { type: 'image/png' });
+
+        // Try Web Share API with file (works on mobile Chrome/Safari)
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: 'My MyMeritStar Achievement',
+              text:  `Check out my MyMeritStar card! Generate yours at ${SITE_URL}`,
+            });
+            btn.innerHTML = '✅ Shared!';
+          } catch (err) {
+            // User cancelled — not an error
+            btn.innerHTML = orig;
+          }
+          btn.disabled = false;
+        } else {
+          // Desktop fallback: download image + open Instagram
+          _instagramFallback(btn, orig, blob, filename);
+        }
+      }, 'image/png');
+    })
+    .catch(() => _instagramFallback(btn, orig));
 }
 
-function shareTwitter() {
-  const text = encodeURIComponent(window.shareText || 'Check out my MeritStar! meritstar.in');
-  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+function _instagramFallback(btn, orig, blob, filename) {
+  // Download the image
+  if (blob && filename) {
+    const url = URL.createObjectURL(blob);
+    const a   = document.createElement('a');
+    a.href    = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // Show a brief instruction then open Instagram
+  btn.innerHTML = '📸 Opening Instagram...';
+  btn.disabled  = false;
+  setTimeout(() => {
+    window.open('https://www.instagram.com/', '_blank');
+    btn.innerHTML = '✅ Image saved — upload on Instagram';
+    setTimeout(() => { btn.innerHTML = orig; }, 4000);
+  }, 600);
 }
 
-function downloadCard() {
-  const card = document.getElementById('merit-card');
-  html2canvas(card, {
-    scale: 3,
-    backgroundColor: null,
-    useCORS: true,
-    logging: false
-  }).then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'MeritStar-Achievement.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  });
+async function shareEmail() {
+  const d = window._shareData; if (!d) return;
+  const btn = document.querySelector('.bs-email');
+  const orig = btn.innerHTML;
+
+  const subject = `${d.name} scored ${d.pct}% - MyMeritStar Achievement`;
+  const bodyText = `Hi,\n\nWanted to share this achievement!\n\n${d.name} scored ${d.pct}% - ${d.grade}!\n${d.persona ? d.persona + '\n' : ''}\nGenerate your own card at meritstar.in\n\nPowered by MyMeritStar`;
+
+  if (typeof html2canvas === 'undefined') {
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+    return;
+  }
+
+  btn.innerHTML = '⏳ Preparing...';
+  btn.disabled = true;
+
+  try {
+    const card = document.getElementById('gen-card');
+    const canvas = await html2canvas(card, { scale: 3, useCORS: true, backgroundColor: '#ffffff', logging: false });
+    canvas.toBlob(async blob => {
+      const filename = `mymeritstar-${(d.name || 'card').replace(/\s+/g,'-').toLowerCase()}.png`;
+      const file = new File([blob], filename, { type: 'image/png' });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file], title: subject, text: bodyText });
+          btn.innerHTML = '✅ Shared!';
+        } catch (err) {
+          btn.innerHTML = orig;
+        }
+        btn.disabled = false;
+      } else {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename; a.click();
+        URL.revokeObjectURL(url);
+        const bodyWithNote = bodyText + '\n\n[Card image downloaded to your device - please attach it to this email]';
+        setTimeout(() => {
+          window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyWithNote)}`;
+          btn.innerHTML = '✅ Image saved - attach to email';
+          setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 4000);
+        }, 500);
+      }
+    }, 'image/png');
+  } catch (e) {
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+    btn.innerHTML = orig;
+    btn.disabled = false;
+  }
 }
 
-// ── EMAIL ──
-function saveEmail() {
-  const email = document.getElementById('user-email').value.trim();
-  if (!email) { alert('Please enter your email or WhatsApp number.'); return; }
-  // In production: POST to backend API
-  console.log('Email captured:', email);
-  document.getElementById('email-success').style.display = 'block';
-  document.querySelector('.email-submit').disabled = true;
-  document.querySelector('.skip-link').style.display = 'none';
+function downloadPNG(forInstagram = false) {
+  const card = document.getElementById('gen-card');
+  if (typeof html2canvas !== 'undefined') {
+    const btn = forInstagram
+      ? document.querySelector('.bs-instagram')
+      : document.querySelector('.bs-png');
+    const origText = btn.innerHTML;
+    btn.innerHTML = '⏳ Preparing...';
+    btn.disabled = true;
+
+    html2canvas(card, {
+      scale: 3,
+      useCORS: true,
+      backgroundColor: null,
+      logging: false,
+    }).then(canvas => {
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `mymeritstar-${(window._shareData?.name || 'card').replace(/\s+/g,'-').toLowerCase()}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+        btn.innerHTML = forInstagram ? '✅ Saved! Open Instagram to share' : '✅ Downloaded!';
+        setTimeout(() => { btn.innerHTML = origText; btn.disabled = false; }, 3000);
+      }, 'image/png');
+    }).catch(() => {
+      btn.innerHTML = origText; btn.disabled = false;
+      printFallback();
+    });
+  } else {
+    printFallback();
+  }
 }
 
-function skipEmail() {
-  document.getElementById('email-section').style.display = 'none';
+function downloadPDF() {
+  const card = document.getElementById('gen-card');
+  if (typeof html2canvas !== 'undefined' && typeof window.jspdf !== 'undefined') {
+    const btn = document.querySelector('.bs-pdf');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '⏳ Preparing PDF...';
+    btn.disabled = true;
+
+    html2canvas(card, { scale: 3, useCORS: true, backgroundColor: '#ffffff', logging: false }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: [canvas.width/3, canvas.height/3] });
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width/3, canvas.height/3);
+      const pdfBlob = pdf.output('blob');
+      const blobUrl = URL.createObjectURL(pdfBlob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = `mymeritstar-${(window._shareData?.name || 'card').replace(/\s+/g,'-').toLowerCase()}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+      btn.innerHTML = '✅ PDF Downloaded!';
+      setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 3000);
+    }).catch(() => { btn.innerHTML = orig; btn.disabled = false; printFallback(); });
+  } else {
+    printFallback();
+  }
+}
+
+function printFallback() {
+  const card = document.getElementById('gen-card');
+  const pa = document.getElementById('print-area');
+  pa.innerHTML = card.outerHTML;
+  const style = document.createElement('style');
+  style.textContent = '@media print { body > * { display: none !important; } #print-area { display: block !important; position: fixed; top: 0; left: 0; width: 100%; } }';
+  document.head.appendChild(style);
+  window.print();
+  setTimeout(() => { pa.innerHTML = ''; document.head.removeChild(style); }, 1000);
 }
 </script>
+
+<!-- Libraries loaded async — work when online (meritstar.in) -->
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js" async></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" async></script>
+
 </body>
 </html>
