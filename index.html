@@ -651,7 +651,7 @@ input:focus, select:focus {
                   <div class="mc-subj"><div class="mc-subj-icon">📖</div><div class="mc-subj-name">English</div><div class="mc-subj-rating r-good">Good</div></div>
                 </div>
               </div>
-              <div class="mc-footer"><span class="mc-watermark">⭐ meritstar.in</span><span class="mc-date">May 2026</span></div>
+              <div class="mc-footer"><span class="mc-watermark">⭐ mymeritstar.com</span><span class="mc-date">May 2026</span></div>
             </div>
           </div>
 
@@ -689,7 +689,7 @@ input:focus, select:focus {
                   <div class="mc-progress-text">+18.2% improvement vs last year!</div>
                 </div>
               </div>
-              <div class="mc-footer"><span class="mc-watermark">⭐ meritstar.in</span><span class="mc-date">May 2026</span></div>
+              <div class="mc-footer"><span class="mc-watermark">⭐ mymeritstar.com</span><span class="mc-date">May 2026</span></div>
             </div>
           </div>
 
@@ -723,7 +723,7 @@ input:focus, select:focus {
                   <div class="mc-subj"><div class="mc-subj-icon">📖</div><div class="mc-subj-name">English</div><div class="mc-subj-rating r-good">Good</div></div>
                 </div>
               </div>
-              <div class="mc-footer"><span class="mc-watermark">⭐ meritstar.in</span><span class="mc-date">May 2026</span></div>
+              <div class="mc-footer"><span class="mc-watermark">⭐ mymeritstar.com</span><span class="mc-date">May 2026</span></div>
             </div>
           </div>
 
@@ -757,7 +757,7 @@ input:focus, select:focus {
                   <div class="mc-subj"><div class="mc-subj-icon">🏅</div><div class="mc-subj-name">Rank</div><div class="mc-subj-rating r-high">#3,241</div></div>
                 </div>
               </div>
-              <div class="mc-footer"><span class="mc-watermark">⭐ meritstar.in</span><span class="mc-date">May 2026</span></div>
+              <div class="mc-footer"><span class="mc-watermark">⭐ mymeritstar.com</span><span class="mc-date">May 2026</span></div>
             </div>
           </div>
 
@@ -791,7 +791,7 @@ input:focus, select:focus {
                   <div class="mc-subj"><div class="mc-subj-icon">📊</div><div class="mc-subj-name">Economics</div><div class="mc-subj-rating r-avg">Average</div></div>
                 </div>
               </div>
-              <div class="mc-footer"><span class="mc-watermark">⭐ meritstar.in</span><span class="mc-date">May 2026</span></div>
+              <div class="mc-footer"><span class="mc-watermark">⭐ mymeritstar.com</span><span class="mc-date">May 2026</span></div>
             </div>
           </div>
 
@@ -856,7 +856,7 @@ input:focus, select:focus {
   </main>
 
   <footer class="site-footer-feedback">
-    ⭐ MyMeritStar · meritstar.in · Your data never leaves your browser<br>
+    ⭐ MyMeritStar · mymeritstar.com · Your data never leaves your browser<br>
     Feedback &amp; suggestions: <a href="mailto:mymeritstar@gmail.com">mymeritstar@gmail.com</a>
   </footer>
 </div>
@@ -1044,7 +1044,7 @@ input:focus, select:focus {
           </div>
         </div>
         <div class="mc-footer">
-          <span class="mc-watermark">⭐ meritstar.in</span>
+          <span class="mc-watermark">⭐ mymeritstar.com</span>
           <span class="mc-date" id="r-date"></span>
         </div>
       </div>
@@ -1068,7 +1068,7 @@ input:focus, select:focus {
         </button>
         <button class="btn-share bs-png" onclick="downloadPNG()">
           <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-          Download PNG
+          Download Image
         </button>
         <button class="btn-share bs-pdf share-full" onclick="downloadPDF()">
           <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
@@ -1089,8 +1089,8 @@ input:focus, select:focus {
 
 
 <script>
-// ─── Site URL — update to ngrok URL for mobile testing, 'https://meritstar.in' when hosted ───
-const SITE_URL = 'https://meritstar.in';
+// ─── Site URL ───
+const SITE_URL = 'https://mymeritstar.com';
 
 // ─── Hero card carousel ───
 let _slideIdx = 0;
@@ -1604,7 +1604,7 @@ async function shareEmail() {
   const orig = btn.innerHTML;
 
   const subject = `${d.name} scored ${d.pct}% - MyMeritStar Achievement`;
-  const bodyText = `Hi,\n\nWanted to share this achievement!\n\n${d.name} scored ${d.pct}% - ${d.grade}!\n${d.persona ? d.persona + '\n' : ''}\nGenerate your own card at meritstar.in\n\nPowered by MyMeritStar`;
+  const bodyText = `Hi,\n\nWanted to share this achievement!\n\n${d.name} scored ${d.pct}% - ${d.grade}!\n${d.persona ? d.persona + '\n' : ''}\nGenerate your own card at mymeritstar.com\n\nPowered by MyMeritStar`;
 
   if (typeof html2canvas === 'undefined') {
     window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
@@ -1726,7 +1726,7 @@ function printFallback() {
 }
 </script>
 
-<!-- Libraries loaded async — work when online (meritstar.in) -->
+<!-- Libraries loaded async -->
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js" async></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" async></script>
 
